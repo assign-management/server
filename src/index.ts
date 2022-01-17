@@ -1,23 +1,17 @@
-import { PORT } from 'config/environment';
-import databaseConfig from 'config/database';
 import app from './app';
-import pool from './pool';
+import DATABASE_CONFIG from './config/database';
+import { PORT } from './config/environment';
+import pool from './database/pool';
+import { handleException } from './errors/handle-exception';
+import Logger from './utils/logger';
 
-const handleEx = (err: Error) => {
-  console.error(err);
-  process.exit(1);
-};
-
-process.on('uncaughtException', handleEx);
-process.on('unhandledRejection', handleEx);
+process.on('uncaughtException', handleException());
+process.on('unhandledRejection', handleException());
 
 pool
-  .connect(databaseConfig)
-  .then(() => {
-    console.log('database connection established');
-    app().then((server) => server.listen(PORT, () => console.log(`Listening on port ${PORT}`)));
+  .connect(DATABASE_CONFIG)
+  .then(async () => {
+    Logger.info('database connection established');
+    app().then((server) => server.listen(PORT, () => Logger.info(`Listening on port ${PORT}`)));
   })
-  .catch((err) => {
-    console.error('database connection failed\n', err);
-    process.exit(1);
-  });
+  .catch(handleException('database connection failed\n'));

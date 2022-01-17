@@ -1,7 +1,17 @@
 import { Knex, knex } from 'knex';
+import { Env } from '../config/constants';
+import { isEnv } from '../config/environment';
 
 class Pool {
-  public knex?: Knex<any, unknown[]>;
+  private _knex!: Knex;
+
+  public get knex(): Knex {
+    return this._knex;
+  }
+
+  public set knex(v: Knex) {
+    this._knex = v;
+  }
 
   connect(options: Knex.Config) {
     this.knex = knex(options);
@@ -11,6 +21,7 @@ class Pool {
   close() {
     return this.knex?.destroy();
   }
+
   // query(sql, params) {
   //   return this._pool.query(sql, params);
   // }

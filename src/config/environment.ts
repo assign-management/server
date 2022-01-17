@@ -9,11 +9,13 @@ config({
 
 const randomKey = randomBytes(32).toString('hex');
 
+export const isEnv = (env: Env) => NODE_ENV === env;
+
 export const {
   NODE_ENV,
   PORT = 5000,
   SECRET = randomKey,
-  DATABASE_NAME = 'assign',
+  DATABASE_NAME = isEnv(Env.Test) ? `assign-test` : 'assign',
   DATABASE_USERNAME = 'postgres',
   DATABASE_PASSWORD = 'postgres',
   DATABASE_HOST = 'localhost',
@@ -26,5 +28,3 @@ export const {
   GITHUB_SECRET,
   CLIENT_BASE_URL,
 } = process.env;
-
-export const isEnv = (env: Env) => NODE_ENV === env;
