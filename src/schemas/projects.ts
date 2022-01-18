@@ -23,6 +23,9 @@ export const projects = gql`
 
   type Query {
     projects: [Project!]!
-    addProject(title: String, accessability: Accessability): Project
+  }
+
+  type Mutation {
+    createProject(title: String!, accessability: Accessability): Project
   }
 `;

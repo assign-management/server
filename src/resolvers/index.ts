@@ -1,6 +1,9 @@
 import _ from 'lodash';
+import { Accessability, ProjectResolvers, Resolvers, UserResolvers } from '../generated/graphql';
+import projectRepo from '../repos/project-repo';
+import { Accessibility } from '../utils/constants';
 
-const users = {
+const users: Resolvers<UserResolvers> = {
   Query: {
     profile: () => ({
       id: 'ID!',
@@ -11,22 +14,37 @@ const users = {
   },
 };
 
-const projects = {
+const projects: Resolvers<ProjectResolvers> = {
   Query: {
     projects: () => [
       {
-        id: 'ID!',
-        title: 'String!',
-        createdAt: 'String!',
-        updatedAt: 'String!',
+        accessability: Accessability.Public,
+        id: 'twgwrg',
+        createdAt: 'wegegw',
+        title: 'gwegew',
+        updatedAt: 'fwegew',
       },
     ],
+  },
+  Mutation: {
+    createProject: async (parent, args) => {
+      const project = await projectRepo.create(args);
+      console.log('project', project);
+
+      return {
+        accessability: Accessability.Public,
+        id: 'twgwrg',
+        createdAt: 'wegegw',
+        title: 'gwegew',
+        updatedAt: 'fwegew',
+      };
+    },
   },
 };
 
 const query = {};
 
-const resolvers = _.merge(
+const resolvers: Resolvers = _.merge(
   {},
   users,
   projects,

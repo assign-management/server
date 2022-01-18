@@ -1,4 +1,5 @@
 import { Knex } from 'knex';
+import { Project } from '../generated/graphql';
 
 declare module 'knex/types/tables' {
   interface User {
@@ -16,6 +17,8 @@ declare module 'knex/types/tables' {
   interface Tables {
     // This is same as specifying `knex<User>('users')`
     users: User;
+    projects: Omit<Project, '__typename'>;
+
     // For more advanced types, you can specify separate type
     // for base model, "insert" type and "update" type.
     // But first: notice that if you choose to use this,
