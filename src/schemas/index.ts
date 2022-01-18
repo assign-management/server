@@ -1,11 +1,12 @@
 import { gql } from 'apollo-server-core';
+import { projects } from './projects';
 
 const users = gql`
   type User {
     id: ID!
-    email: String
-    name: String
-    token: String
+    email: String!
+    name: String!
+    token: String!
   }
 
   type Query {
@@ -13,6 +14,6 @@ const users = gql`
   }
 `;
 
-const typeDefs = [users];
+const typeDefs = [users, projects];
 
 export default typeDefs;

@@ -13,7 +13,7 @@ export const isEnv = (env: Env) => NODE_ENV === env;
 
 export const {
   NODE_ENV,
-  PORT = 5000,
+  PORT = 4000,
   SECRET = randomKey,
   DATABASE_NAME = isEnv(Env.Test) ? `assign-test` : 'assign',
   DATABASE_USERNAME = 'postgres',

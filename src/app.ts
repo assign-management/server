@@ -17,7 +17,7 @@ export default async (): Promise<Server> => {
   await server.start();
   server.applyMiddleware({ app });
 
-  app.use(express.json());
+  // app.use(express.json());
   // app.use(usersRouter);
 
   return httpServer;

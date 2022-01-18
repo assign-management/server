@@ -10,7 +10,7 @@
   "scripts": {
     "prestart": "tsc",
     "start": "node .",
-    "dev": "tsc -w & nodemon ./src/index.ts",
+    "dev": "nodemon ./src/index.ts",
     "lint": "eslint src --ext .ts",
     "format": "prettier --config $npm_package_config_prettier",
     "test": "jest",

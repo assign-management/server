@@ -11,11 +11,25 @@ const users = {
   },
 };
 
+const projects = {
+  Query: {
+    projects: () => [
+      {
+        id: 'ID!',
+        title: 'String!',
+        createdAt: 'String!',
+        updatedAt: 'String!',
+      },
+    ],
+  },
+};
+
 const query = {};
 
 const resolvers = _.merge(
   {},
   users,
+  projects,
   // resolversA, resolversB
 );
 

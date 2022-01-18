@@ -12,6 +12,8 @@ pool
   .connect(DATABASE_CONFIG)
   .then(async () => {
     Logger.info('database connection established');
-    app().then((server) => server.listen(PORT, () => Logger.info(`Listening on port ${PORT}`)));
+    app()
+      .then((server) => server.listen(PORT, () => Logger.info(`Listening on port ${PORT}`)))
+      .catch(handleException());
   })
   .catch(handleException('database connection failed\n'));
