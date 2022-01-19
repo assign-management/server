@@ -1,15 +1,25 @@
 import pool from '../database/pool';
-import { Accessibility } from '../utils/constants';
+
+const parseTableResponse = (rows: any[]) => {
+  return rows.map((row: any) => {
+    const replaced: any = {};
+    for (const key in row) {
+      if (Object.hasOwnProperty.call(row, key)) {
+        const camelCase = key.replace(/([-_][a-z])/gi, ($1) => $1.toUpperCase().replace('_', ''));
+        replaced[camelCase] = row[key];
+      }
+    }
+    return replaced;
+  });
+};
 
 class ProjectRepo {
-  // find() {
-  //   const test = this.queryBuilder.select('id', 'email', 'created_at', 'updated_at');
+  async find() {
+    return parseTableResponse(await pool.knex.from('projects').select('*'));
+  }
 
-  //   console.log(test);
-  // }
-
-  create(args: any) {
-    return pool.knex.from('projects').insert(args);
+  async create(args: any) {
+    return parseTableResponse(await pool.knex.from('projects').insert(args).returning('*'))[0];
   }
 }
 

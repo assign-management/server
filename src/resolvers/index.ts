@@ -27,18 +27,7 @@ const projects: Resolvers<ProjectResolvers> = {
     ],
   },
   Mutation: {
-    createProject: async (parent, args) => {
-      const project = await projectRepo.create(args);
-      console.log('project', project);
-
-      return {
-        accessability: Accessability.Public,
-        id: 'twgwrg',
-        createdAt: 'wegegw',
-        title: 'gwegew',
-        updatedAt: 'fwegew',
-      };
-    },
+    createProject: (parent, args) => projectRepo.create(args),
   },
 };
 

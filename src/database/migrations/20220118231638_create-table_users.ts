@@ -13,7 +13,7 @@ export async function up(knex: Knex): Promise<void> {
   "role" ROLES NOT NULL DEFAULT 'MEMBER',
   "reset_token" VARCHAR(255),
   "reset_token_expires" TIMESTAMPTZ,
-  "createdAt" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "created_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   "updated_at" TIMESTAMPTZ NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY ("id")
   );
