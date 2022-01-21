@@ -4,19 +4,20 @@
   "description": "",
   "main": "dist/index.js",
   "config": {
+    "database_cli": "ts-node src/database/cli/",
     "knexfile": "src/database/knexfile.ts",
     "prettier": ".prettierrc.json --write src/**/*.ts --ignore-path .gitignore"
   },
   "scripts": {
     "prestart": "tsc",
     "start": "node .",
-    "dev": "nodemon ./src/index.ts",
+    "dev": "nodemon ./src/index",
     "lint": "eslint src --ext .ts",
     "format": "prettier --config $npm_package_config_prettier",
     "test": "jest",
     "knex-cli": "knex --knexfile $npm_package_config_knexfile",
-    "db:init": "ts-node ./src/database/cli/create.ts",
-    "db:drop": "ts-node ./src/database/cli/drop.ts",
+    "db:init": "$npm_package_config_database_cli/create",
+    "db:drop": "$npm_package_config_database_cli/drop",
     "migrate:make": "npm run knex-cli migrate:make",
     "migrate:latest": "npm run knex-cli migrate:latest",
     "migrate:rollback": "npm run knex-cli migrate:rollback",

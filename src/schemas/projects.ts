@@ -4,7 +4,7 @@ export const projects = gql`
   """
   This enum stand for who can see the Project:
   """
-  enum Accessability {
+  enum Accessibility {
     "Only the current User."
     PRIVATE
     "Only the team members of the project and the current user."
@@ -14,18 +14,35 @@ export const projects = gql`
   }
 
   type Project {
+    """
+    support markdown language
+    Description for field
+    Supports **multi-line** description for your [API](http://example.com)!
+    """
     id: ID!
     title: String!
-    accessability: Accessability!
+    accessibility: Accessibility!
     createdAt: String!
     updatedAt: String!
   }
 
-  type Query {
-    projects: [Project!]!
+  input CreateProjectArgs {
+    title: String!
+    accessibility: Accessibility
   }
 
+  type CreateProjectMutationResponse implements MutationResponse {
+    code: String!
+    success: Boolean!
+    message: String!
+    project: Project
+  }
+
+  type Query {
+    project("Description for argument" id: ID!): Project
+    projects(skip: Int, take: Int): [Project]
+  }
   type Mutation {
-    createProject(title: String!, accessability: Accessability): Project
+    createProject(args: CreateProjectArgs!): CreateProjectMutationResponse
   }
 `;

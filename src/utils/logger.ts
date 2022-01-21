@@ -39,11 +39,9 @@ const transports = [
   }),
 ];
 
-const Logger = winston.createLogger({
+export const Logger = winston.createLogger({
   format,
   level: isEnv(Env.Development) ? 'debug' : 'info',
   levels,
   transports,
 });
-
-export default Logger;

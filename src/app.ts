@@ -1,24 +1,24 @@
 import express from 'express';
 import 'express-async-errors';
-import { ApolloServer } from 'apollo-server-express';
+import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import http, { Server } from 'http';
 import typeDefs from './schemas';
 import resolvers from './resolvers';
 
-export default async (): Promise<Server> => {
+export default async (): Promise<{ httpServer: Server; apolloServer: ApolloServer<ExpressContext> }> => {
   const app = express();
   const httpServer = http.createServer(app);
-  const server = new ApolloServer({
+  const apolloServer = new ApolloServer({
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
-  await server.start();
-  server.applyMiddleware({ app });
+  await apolloServer.start();
+  apolloServer.applyMiddleware({ app });
 
   // app.use(express.json());
   // app.use(usersRouter);
 
-  return httpServer;
+  return { httpServer, apolloServer };
 };

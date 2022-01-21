@@ -16,7 +16,7 @@ export type Scalars = {
 };
 
 /** This enum stand for who can see the Project: */
-export enum Accessability {
+export enum Accessibility {
   /** Only the current User. */
   Private = 'PRIVATE',
   /** Everyone can see the project */
@@ -25,21 +25,44 @@ export enum Accessability {
   Team = 'TEAM'
 }
 
+export type CreateProjectArgs = {
+  accessibility?: InputMaybe<Accessibility>;
+  title: Scalars['String'];
+};
+
+export type CreateProjectMutationResponse = MutationResponse & {
+  __typename?: 'CreateProjectMutationResponse';
+  code: Scalars['String'];
+  message: Scalars['String'];
+  project?: Maybe<Project>;
+  success: Scalars['Boolean'];
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
-  createProject?: Maybe<Project>;
+  createProject?: Maybe<CreateProjectMutationResponse>;
 };
 
 
 export type MutationCreateProjectArgs = {
-  accessability?: InputMaybe<Accessability>;
-  title: Scalars['String'];
+  args: CreateProjectArgs;
+};
+
+export type MutationResponse = {
+  code: Scalars['String'];
+  message: Scalars['String'];
+  success: Scalars['Boolean'];
 };
 
 export type Project = {
   __typename?: 'Project';
-  accessability: Accessability;
+  accessibility: Accessibility;
   createdAt: Scalars['String'];
+  /**
+   * support markdown language
+   * Description for field
+   * Supports **multi-line** description for your [API](http://example.com)!
+   */
   id: Scalars['ID'];
   title: Scalars['String'];
   updatedAt: Scalars['String'];
@@ -48,7 +71,19 @@ export type Project = {
 export type Query = {
   __typename?: 'Query';
   profile?: Maybe<User>;
-  projects: Array<Project>;
+  project?: Maybe<Project>;
+  projects?: Maybe<Array<Maybe<Project>>>;
+};
+
+
+export type QueryProjectArgs = {
+  id: Scalars['ID'];
+};
+
+
+export type QueryProjectsArgs = {
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
 };
 
 export type User = {
@@ -128,10 +163,14 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Accessability: Accessability;
+  Accessibility: Accessibility;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  CreateProjectArgs: CreateProjectArgs;
+  CreateProjectMutationResponse: ResolverTypeWrapper<CreateProjectMutationResponse>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Int: ResolverTypeWrapper<Scalars['Int']>;
   Mutation: ResolverTypeWrapper<{}>;
+  MutationResponse: ResolversTypes['CreateProjectMutationResponse'];
   Project: ResolverTypeWrapper<Project>;
   Query: ResolverTypeWrapper<{}>;
   String: ResolverTypeWrapper<Scalars['String']>;
@@ -141,20 +180,39 @@ export type ResolversTypes = {
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
+  CreateProjectArgs: CreateProjectArgs;
+  CreateProjectMutationResponse: CreateProjectMutationResponse;
   ID: Scalars['ID'];
+  Int: Scalars['Int'];
   Mutation: {};
+  MutationResponse: ResolversParentTypes['CreateProjectMutationResponse'];
   Project: Project;
   Query: {};
   String: Scalars['String'];
   User: User;
 };
 
+export type CreateProjectMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['CreateProjectMutationResponse'] = ResolversParentTypes['CreateProjectMutationResponse']> = {
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
+};
+
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'title'>>;
+  createProject?: Resolver<Maybe<ResolversTypes['CreateProjectMutationResponse']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'args'>>;
+};
+
+export type MutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['MutationResponse'] = ResolversParentTypes['MutationResponse']> = {
+  __resolveType: TypeResolveFn<'CreateProjectMutationResponse', ParentType, ContextType>;
+  code?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
 };
 
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
-  accessability?: Resolver<ResolversTypes['Accessability'], ParentType, ContextType>;
+  accessibility?: Resolver<ResolversTypes['Accessibility'], ParentType, ContextType>;
   createdAt?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -164,7 +222,8 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
   profile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  projects?: Resolver<Array<ResolversTypes['Project']>, ParentType, ContextType>;
+  project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<QueryProjectArgs, 'id'>>;
+  projects?: Resolver<Maybe<Array<Maybe<ResolversTypes['Project']>>>, ParentType, ContextType, RequireFields<QueryProjectsArgs, never>>;
 };
 
 export type UserResolvers<ContextType = any, ParentType extends ResolversParentTypes['User'] = ResolversParentTypes['User']> = {
@@ -176,7 +235,9 @@ export type UserResolvers<ContextType = any, ParentType extends ResolversParentT
 };
 
 export type Resolvers<ContextType = any> = {
+  CreateProjectMutationResponse?: CreateProjectMutationResponseResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  MutationResponse?: MutationResponseResolvers<ContextType>;
   Project?: ProjectResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
   User?: UserResolvers<ContextType>;

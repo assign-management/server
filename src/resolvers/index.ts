@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Accessability, ProjectResolvers, Resolvers, UserResolvers } from '../generated/graphql';
+import { ProjectResolvers, Resolvers, UserResolvers } from '../generated/graphql';
 import projectRepo from '../repos/project-repo';
 import { Accessibility } from '../utils/constants';
 
@@ -16,18 +16,14 @@ const users: Resolvers<UserResolvers> = {
 
 const projects: Resolvers<ProjectResolvers> = {
   Query: {
-    projects: () => [
-      {
-        accessability: Accessability.Public,
-        id: 'twgwrg',
-        createdAt: 'wegegw',
-        title: 'gwegew',
-        updatedAt: 'fwegew',
-      },
-    ],
+    project: async (_, id) => projectRepo.findById(id),
+    projects: async (_, args) => projectRepo.find(args),
   },
   Mutation: {
-    createProject: (parent, args) => projectRepo.create(args),
+    createProject: async (_, { args }) => {
+      const project = await projectRepo.create(args);
+      return { code: '201', success: true, message: 'User email was successfully updated', project };
+    },
   },
 };
 

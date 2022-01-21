@@ -1,3 +1,2 @@
 import { Knex } from 'knex';
-import DATABASE_CONFIG from '../config/database';
-export default DATABASE_CONFIG;
+export { DATABASE_CONFIG as default } from '../config/database';

@@ -1,6 +1,6 @@
 import { Knex, knex } from 'knex';
-import { Env } from '../config/constants';
-import { isEnv } from '../config/environment';
+import format from 'pg-format';
+import { Logger } from '../utils/logger';
 
 class Pool {
   private _knex!: Knex;
@@ -13,18 +13,25 @@ class Pool {
     this._knex = v;
   }
 
-  connect(options: Knex.Config) {
-    this.knex = knex(options);
-    return this.knex.select(this.knex.raw('1 + 1'));
+  async connect(options: Knex.Config) {
+    try {
+      this.knex = knex(options);
+      const res = await this.knex.select(this.knex.raw('1 + 1'));
+      Logger.info('database connection established');
+      return res;
+    } catch (err) {
+      Logger.error('database connection failed\n', err);
+      process.exit(1);
+    }
   }
 
   close() {
     return this.knex?.destroy();
   }
 
-  // query(sql, params) {
-  //   return this._pool.query(sql, params);
-  // }
+  query(sql: string, ...args: any[]) {
+    return this.knex?.raw(format(sql, ...args));
+  }
 }
 
 export default new Pool();

@@ -1,24 +1,34 @@
 import pool from '../database/pool';
+import { CreateProjectArgs, Project } from '../generated/graphql';
 
-const parseTableResponse = (rows: any[]) => {
-  return rows.map((row: any) => {
-    const replaced: any = {};
-    for (const key in row) {
-      if (Object.hasOwnProperty.call(row, key)) {
-        const camelCase = key.replace(/([-_][a-z])/gi, ($1) => $1.toUpperCase().replace('_', ''));
-        replaced[camelCase] = row[key];
-      }
+const parseTableRow = (row: any) => {
+  const replaced: any = {};
+  for (const key in row) {
+    if (Object.hasOwnProperty.call(row, key)) {
+      const camelCase = key.replace(/([-_][a-z])/gi, ($1) => $1.toUpperCase().replace('_', ''));
+      replaced[camelCase] = row[key];
     }
-    return replaced;
-  });
+  }
+  return replaced;
+};
+
+const parseTableResponse = (rows: any) => {
+  if (!Array.isArray(rows)) rows = [rows];
+  return rows.map(parseTableRow);
 };
 
 class ProjectRepo {
-  async find() {
-    return parseTableResponse(await pool.knex.from('projects').select('*'));
+  async find(args: any) {
+    const project = await pool.knex.from('projects').select('*');
+    return parseTableResponse(project);
   }
 
-  async create(args: any) {
+  async findById(id: any) {
+    const project = await pool.knex.from('projects').where(id).select('*').first().returning('*');
+    return parseTableRow(project);
+  }
+
+  async create(args: any): Promise<Project> {
     return parseTableResponse(await pool.knex.from('projects').insert(args).returning('*'))[0];
   }
 }
