@@ -1,6 +1,7 @@
-import app from './app';
+import { app } from './app';
+import { Env } from './config/constants';
 import { DATABASE_CONFIG } from './config/database';
-import { PORT } from './config/environment';
+import { isEnv, PORT } from './config/environment';
 import pool from './database/pool';
 import { handleException } from './errors/handle-exception';
 import { Logger } from './utils/logger';
@@ -14,7 +15,7 @@ async function startServer() {
     const { httpServer, apolloServer } = await app();
     httpServer.listen(PORT, () => {
       Logger.info(`Listening on port ${PORT}`);
-      Logger.info(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`);
+      if (isEnv(Env.Development)) Logger.info(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`);
     });
   } catch (err) {
     handleException(err as Error);

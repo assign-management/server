@@ -24,7 +24,7 @@ const levels = Object.freeze({
 const { combine, timestamp, printf, colorize, errors } = winston.format;
 const format = combine(
   timestamp({ format: 'YYYY-MM-DD HH:mm:ss:ms' }),
-  colorize({ all: true }),
+  colorize({ level: true }),
   printf(({ timestamp, level, message, stack }) =>
     Boolean(stack) ? `${timestamp} ${level}: ${message}\n${stack}` : `${timestamp} ${level}: ${message}`,
   ),

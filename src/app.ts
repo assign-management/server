@@ -6,7 +6,7 @@ import http, { Server } from 'http';
 import typeDefs from './schemas';
 import resolvers from './resolvers';
 
-export default async (): Promise<{ httpServer: Server; apolloServer: ApolloServer<ExpressContext> }> => {
+export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloServer<ExpressContext> }> => {
   const app = express();
   const httpServer = http.createServer(app);
   const apolloServer = new ApolloServer({

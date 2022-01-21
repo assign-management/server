@@ -21,6 +21,7 @@ class Pool {
       return res;
     } catch (err) {
       Logger.error('database connection failed\n', err);
+      this.close();
       process.exit(1);
     }
   }

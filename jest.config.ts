@@ -118,6 +118,7 @@ export default {
 
   // A list of paths to directories that Jest should use to search for files in
   roots: ['<rootDir>/src'],
+
   // Allows you to use a custom runner instead of Jest's default test runner
   // runner: "jest-runner",
 
@@ -125,7 +126,7 @@ export default {
   // setupFiles: [],
 
   // A list of paths to modules that run some code to configure or set up the testing framework before each test
-  // setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ['./src/test/setup.ts'],
 
   // The number of seconds after which a test is considered as slow and reported as such in the results.
   // slowTestThreshold: 5,

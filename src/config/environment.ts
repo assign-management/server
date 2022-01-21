@@ -12,7 +12,7 @@ const randomKey = randomBytes(32).toString('hex');
 export const isEnv = (env: Env) => NODE_ENV === env;
 
 export const {
-  NODE_ENV,
+  NODE_ENV = 'development',
   PORT = 4000,
   SECRET = randomKey,
   DATABASE_NAME = isEnv(Env.Test) ? `assign-test` : 'assign',
