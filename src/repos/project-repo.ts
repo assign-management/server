@@ -31,6 +31,12 @@ class ProjectRepo {
   async create(args: any): Promise<Project> {
     return parseTableResponse(await pool.knex.from('projects').insert(args).returning('*'))[0];
   }
+
+  async count() {
+    const { count }: any = await pool.knex.from('projects').count('id').first();
+
+    return Number.parseInt(count);
+  }
 }
 
 export default new ProjectRepo();
