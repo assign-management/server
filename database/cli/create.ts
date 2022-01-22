@@ -1,7 +1,7 @@
-import { DATABASE_NAME } from '../../config/environment';
-import pool from '../pool';
-import { Logger } from '../../utils/logger';
-import { handleException } from '../../errors/handle-exception';
+import { DATABASE_NAME } from '../../src/config/environment';
+import pool from '../../src/pool';
+import { Logger } from '../../src/utils/logger';
+import { handleException } from '../../src/errors/handle-exception';
 import { DATABASE_CLI_CONFIG } from './common';
 
 async function createDatabase() {

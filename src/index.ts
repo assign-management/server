@@ -2,7 +2,7 @@ import { app } from './app';
 import { Env } from './config/constants';
 import { DATABASE_CONFIG } from './config/database';
 import { isEnv, PORT } from './config/environment';
-import pool from './database/pool';
+import pool from './pool';
 import { handleException } from './errors/handle-exception';
 import { Logger } from './utils/logger';
 

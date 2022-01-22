@@ -1,4 +1,4 @@
-import pool from '../database/pool';
+import pool from '../pool';
 import { CreateProjectArgs, Project } from '../generated/graphql';
 
 const parseTableRow = (row: any) => {

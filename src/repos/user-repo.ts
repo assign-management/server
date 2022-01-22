@@ -1,4 +1,4 @@
-import pool from '../database/pool';
+import pool from '../pool';
 
 class UserRepo {
   queryBuilder = pool.knex.from('users');

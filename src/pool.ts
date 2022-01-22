@@ -1,6 +1,7 @@
 import { Knex, knex } from 'knex';
 import format from 'pg-format';
-import { Logger } from '../utils/logger';
+import { DATABASE_NAME } from './config/environment';
+import { Logger } from './utils/logger';
 
 class Pool {
   private _knex!: Knex;
@@ -17,10 +18,10 @@ class Pool {
     try {
       this.knex = knex(options);
       const res = await this.knex.select(this.knex.raw('1 + 1'));
-      Logger.info('database connection established');
+      Logger.info(`established connection with the database: ${DATABASE_NAME}`);
       return res;
     } catch (err) {
-      Logger.error('database connection failed\n', err);
+      Logger.error(`the connection failed with the database: ${DATABASE_NAME}\n`, err);
       this.close();
       process.exit(1);
     }
