@@ -13,7 +13,6 @@
     "start": "node .",
     "dev": "nodemon ./src/index.ts",
     "test": "jest --watchAll --no-cache",
-    "pretest": "NODE_ENV=test $npm_package_config_database_cli/pretest",
     "lint": "eslint src --ext .ts",
     "format": "prettier --config $npm_package_config_prettier",
     "codegen": "graphql-codegen --config codegen.yml",
