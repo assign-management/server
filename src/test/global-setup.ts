@@ -12,6 +12,7 @@ async function createTestDatabase() {
     // require('ts-node/register');
   } catch (err) {}
   // await pool.knex.seed.run();
+  await pool.knex.migrate.latest();
   await pool.close();
 }
 
