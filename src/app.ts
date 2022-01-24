@@ -1,5 +1,4 @@
 import express from 'express';
-import 'express-async-errors';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import http, { Server } from 'http';

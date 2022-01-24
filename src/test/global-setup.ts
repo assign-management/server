@@ -7,8 +7,6 @@ async function createTestDatabase() {
   await pool.query('DROP DATABASE IF EXISTS %I', DATABASE_NAME);
   await pool.query('CREATE DATABASE %I', DATABASE_NAME);
   await pool.close();
-  await pool.connect(getCustomDatabaseConfig(DATABASE_NAME, 'src/database/migrations', 'src/database/seeds'));
-  await pool.knex.migrate.latest();
 
   try {
     // require('ts-node/register');
