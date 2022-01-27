@@ -16,7 +16,7 @@
     "test": "jest --watchAll --no-cache --runInBand",
     "codegen": "graphql-codegen --config codegen.yml",
     "db:init": "ts-node $npm_package_config_database_cli/create",
-    "db:drop": "NODE_ENV=test ts-node $npm_package_config_database_cli/drop",
+    "db:drop": "ts-node $npm_package_config_database_cli/drop",
     "knex-cli": "knex --knexfile $npm_package_config_knexfile",
     "migrate:make": "npm run knex-cli migrate:make",
     "migrate:latest": "npm run knex-cli migrate:latest",

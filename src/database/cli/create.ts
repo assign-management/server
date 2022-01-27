@@ -2,10 +2,10 @@ import { DATABASE_NAME } from '../../config/environment';
 import pool from '../../pool';
 import { Logger } from '../../utils/logger';
 import { handleException } from '../../errors/handle-exception';
-import { DATABASE_CLI_CONFIG } from './common';
+import { rootKnexConfig } from '../knexfile';
 
 async function createDatabase() {
-  await pool.connect(DATABASE_CLI_CONFIG);
+  await pool.connect(rootKnexConfig);
   await pool
     .query('CREATE DATABASE %I', DATABASE_NAME)
     .catch((err) => {

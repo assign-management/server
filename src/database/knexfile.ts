@@ -48,9 +48,6 @@ const config: { [key: string]: Knex.Config } = {
   production: DATABASE_CONFIG,
 };
 
-export const rootKnexConfig = freeze<Knex.Config>({
-  client,
-  connection: DATABASE_ROOT_CONNECTION,
-});
-
+export const rootKnexConfig = freeze<Knex.Config>({ client, connection: DATABASE_ROOT_CONNECTION });
 export const knexConfig = config[NODE_ENV];
+export default config[NODE_ENV];
