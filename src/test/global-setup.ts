@@ -1,27 +1,33 @@
-import { getCustomDatabaseConfig } from '../config/database';
-import { DATABASE_NAME } from '../config/environment';
+import { DATABASE_NAME, DATABASE_USERNAME } from '../config/environment';
+import { knexConfig, rootKnexConfig } from '../database/knexfile';
 import pool from '../pool';
-
-async function createTestDatabase() {
-  await pool.connect(getCustomDatabaseConfig());
-  await pool.query('DROP DATABASE IF EXISTS %I', DATABASE_NAME);
-  await pool.query('CREATE DATABASE %I', DATABASE_NAME);
-  await pool.close();
-
-  try {
-    // require('ts-node/register');
-  } catch (err) {}
-  // await pool.knex.seed.run();
-  await pool.knex.migrate.latest();
-  await pool.close();
-}
+import { Logger } from '../utils/logger';
 
 export default async () => {
   try {
-    await createTestDatabase();
-    console.log('Test database created successfully');
+    // setup an available connection to initialize or recreate testing DB
+    await pool.connect(rootKnexConfig);
+    await pool.query('DROP DATABASE IF EXISTS %I', DATABASE_NAME);
+    await pool.query(
+      `DO $body$ BEGIN CREATE ROLE %I LOGIN PASSWORD %L;
+      EXCEPTION WHEN others THEN RAISE NOTICE 'User exists, not re-creating'; END $body$;`,
+      DATABASE_NAME,
+      DATABASE_USERNAME,
+    );
+    await pool.query(
+      `CREATE DATABASE %I OWNER = '%I' ENCODING = 'UTF-8' TEMPLATE template1`,
+      DATABASE_NAME,
+      DATABASE_USERNAME,
+    );
+    await pool.close();
+    // connect to the testing DB to run migrations and seeds.
+    await pool.connect(knexConfig);
+    await pool.knex.migrate.latest();
+    await pool.knex.seed.run();
+    await pool.close();
+    Logger.info(`${DATABASE_NAME} database initialization succeeded.`);
   } catch (error) {
-    console.log(error);
+    Logger.error(`${DATABASE_NAME} database initialization failed.\n${error}`);
     process.exit(1);
   }
 };

@@ -20,6 +20,7 @@ export const {
   DATABASE_PASSWORD = 'postgres',
   DATABASE_HOST = 'localhost',
   DATABASE_PORT = '5432',
+  DATABASE_ROOT_CONNECTION = 'postgres://postgres:postgres@localhost',
   GOOGLE_CLIENT_ID,
   GOOGLE_CLIENT_SECRET,
   FACEBOOK_CLIENT_ID,

@@ -1,17 +1,17 @@
 import { app } from './app';
 import { Env } from './config/constants';
-import { DATABASE_CONFIG } from './config/database';
 import { isEnv, PORT } from './config/environment';
 import pool from './pool';
 import { handleException } from './errors/handle-exception';
 import { Logger } from './utils/logger';
+import { knexConfig } from './database/knexfile';
 
 process.on('uncaughtException', handleException);
 process.on('unhandledRejection', handleException);
 
 async function startServer() {
   try {
-    await pool.connect(DATABASE_CONFIG);
+    await pool.connect(knexConfig);
     const { httpServer, apolloServer } = await app();
     httpServer.listen(PORT, () => {
       Logger.info(`Listening on port ${PORT}`);

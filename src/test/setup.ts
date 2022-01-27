@@ -1,20 +1,15 @@
-import { Knex } from 'knex';
-import { getCustomDatabaseConfig } from '../config/database';
-import { DATABASE_NAME } from '../config/environment';
-import pool from '../pool';
+/**
+ * When you're writing tests, you often need to check that values meet certain conditions.
+ * expect gives you access to a number of "matchers" that let you validate different things.
+ * For additional Jest matchers maintained by the Jest Community check out jest-extended.
+ * @link https://github.com/jest-community/jest-extended
+ */
+import 'jest-extended';
+import 'jest-extended/all';
 import { Context } from './context';
 
-const promisify = (fn: any) => new Promise((resolve, reject) => fn(resolve));
-
 let content: Context;
-let transaction: Knex.Transaction<any, any[]>;
 beforeAll(async () => {
-  await pool.connect(getCustomDatabaseConfig(DATABASE_NAME, 'src/database/migrations', 'src/database/seeds'));
-  console.log('success');
-  transaction = await pool.knex.transaction();
-  // console.log(content);
+  content = await Context.build();
 });
-afterAll(async () => {
-  transaction.rollback();
-  await pool.close();
-});
+afterAll(() => content.close());
