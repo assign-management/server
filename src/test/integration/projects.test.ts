@@ -1,6 +1,6 @@
 import { default as request } from 'supertest';
 import { app } from '../../app';
-import projectRepo from '../../repos/project-repo';
+import { ProjectRepository } from '../../repositories';
 import gql from 'graphql-tag';
 
 describe('projects', () => {
@@ -20,7 +20,7 @@ describe('projects', () => {
     `;
 
     const { httpServer } = await app();
-    const startingCount = await projectRepo.count();
+    const startingCount = await ProjectRepository.count();
     const { body } = await request(httpServer)
       .post('/graphql')
       .set('Content-Type', 'application/json')
@@ -40,7 +40,7 @@ describe('projects', () => {
         `,
       });
 
-    const finishingCount = await projectRepo.count();
+    const finishingCount = await ProjectRepository.count();
     expect(finishingCount - startingCount).toEqual(1);
   });
 });

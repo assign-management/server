@@ -1,5 +1,5 @@
 import pool from '../pool';
-import { CreateProjectArgs, Project } from '../generated/graphql';
+import { Project } from '../generated/graphql';
 
 const parseTableRow = (row: any) => {
   const replaced: any = {};
@@ -39,4 +39,4 @@ class ProjectRepo {
   }
 }
 
-export default new ProjectRepo();
+export const ProjectRepository = new ProjectRepo();

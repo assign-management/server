@@ -10,4 +10,4 @@ class UserRepo {
   }
 }
 
-export default new UserRepo();
+export const userRepository = new UserRepo();

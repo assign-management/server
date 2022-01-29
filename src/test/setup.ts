@@ -4,8 +4,6 @@
  * For additional Jest matchers maintained by the Jest Community check out jest-extended.
  * @link https://github.com/jest-community/jest-extended
  */
-import 'jest-extended';
-import 'jest-extended/all';
 import { Context } from './context';
 
 let content: Context;
