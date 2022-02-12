@@ -11,6 +11,7 @@ import {
   isEnv,
   NODE_ENV,
 } from '../config/environment';
+import { Logger } from '../utils/logger';
 
 const { freeze } = Object;
 
@@ -47,6 +48,12 @@ const DATABASE_CONFIG = freeze<Knex.Config>({
   migrations,
   seeds,
   debug: options.debug ?? false,
+  log: {
+    warn: Logger.warn,
+    error: Logger.error,
+    deprecate: Logger.error,
+    debug: Logger.debug,
+  },
   /**
    * turn on stack trace capture for all query builders, raw queries and schema builders.
    * When a DB driver returns an error, this previously captured stack trace is thrown instead of a new one.

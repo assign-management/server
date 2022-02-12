@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response } from 'express';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import http, { Server } from 'http';
@@ -12,6 +12,11 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
     typeDefs,
     resolvers,
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    // context: ({ res, req }) => ({
+    //   user: req.user,
+    //   res,
+    //   req,
+    // }),
   });
   await apolloServer.start();
   apolloServer.applyMiddleware({ app });

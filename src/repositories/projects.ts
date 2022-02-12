@@ -1,41 +1,47 @@
 import pool from '../pool';
-import { Project } from '../generated/graphql';
+import { Project } from '../@types/project';
+import { CreateProjectArgs } from '../generated/graphql';
+import { Knex } from 'knex';
 
-const parseTableRow = (row: any) => {
-  const replaced: any = {};
-  for (const key in row) {
-    if (Object.hasOwnProperty.call(row, key)) {
-      const camelCase = key.replace(/([-_][a-z])/gi, ($1) => $1.toUpperCase().replace('_', ''));
-      replaced[camelCase] = row[key];
-    }
-  }
-  return replaced;
-};
-
-const parseTableResponse = (rows: any) => {
-  if (!Array.isArray(rows)) rows = [rows];
-  return rows.map(parseTableRow);
-};
-
+const FIRST_INDEX = 0;
+const EMPTY_OBJECT = {};
 class ProjectRepo {
-  async find(args: any) {
-    const project = await pool.knex.from('projects').select('*');
-    return parseTableResponse(project);
+  TABLE_NAME = 'projects';
+  TABLE_ALIAS = 'p';
+  RETURN_COLUMNS = ['id', 'title', 'accessibility', 'createdAt', 'updatedAt'];
+
+  getBuilder(): Knex.QueryBuilder<Project> {
+    return pool.knex<Project>({ [this.TABLE_ALIAS]: this.TABLE_NAME }).column(this.RETURN_COLUMNS);
   }
 
-  async findById(id: any) {
-    const project = await pool.knex.from('projects').where(id).select('*').first().returning('*');
-    return parseTableRow(project);
+  async find(): Promise<Project[]> {
+    return this.getBuilder().select();
   }
 
-  async create(args: any): Promise<Project> {
-    return parseTableResponse(await pool.knex.from('projects').insert(args).returning('*'))[0];
+  async findById(id: string): Promise<Project> {
+    return this.getBuilder().select().where({ id }).first<Project>();
   }
 
-  async count() {
-    const { count }: any = await pool.knex.from('projects').count('id').first();
+  async create(args: CreateProjectArgs): Promise<Project> {
+    const [project] = await this.getBuilder().insert(args, this.RETURN_COLUMNS);
+    return project;
+  }
 
-    return Number.parseInt(count);
+  async update(id: string, args: Partial<CreateProjectArgs>): Promise<Project> {
+    const [project] = await this.getBuilder().where({ id }).update(args, this.RETURN_COLUMNS);
+    return project;
+  }
+
+  async delete(id: string): Promise<Project> {
+    const [project] = await this.getBuilder().where({ id }).delete(this.RETURN_COLUMNS);
+    return project;
+  }
+
+  async count(): Promise<number> {
+    const data = await this.getBuilder().count('id').first();
+    if (typeof data === 'string') return Number.parseInt(data);
+    if (typeof data === 'number') return data;
+    return 0;
   }
 }
 

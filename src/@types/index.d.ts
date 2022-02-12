@@ -17,7 +17,7 @@ declare module 'knex/types/tables' {
   interface Tables {
     // This is same as specifying `knex<User>('users')`
     users: User;
-    projects: Omit<Project, '__typename'>;
+    // projects: Omit<Project, '__typename'>;
 
     // For more advanced types, you can specify separate type
     // for base model, "insert" type and "update" type.
@@ -40,7 +40,7 @@ declare module 'knex/types/tables' {
       // and make created_at and updated_at optional.
       // And "id" can't be provided at all.
       // Defaults to "base" type.
-      Pick<User, 'name'> & Partial<Pick<User, 'created_at' | 'updated_at'>>,
+      Pick<User, 'email'> & Partial<Pick<User, 'created_at' | 'updated_at'>>,
       // This interface is used for "update()" calls.
       // As opposed to regular specifying interface only once,
       // when specifying separate update interface, user will be

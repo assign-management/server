@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-core';
 
-export const projects = gql`
+export const projectSchemas = gql`
   """
   This enum stand for who can see the Project:
   """
@@ -22,27 +22,42 @@ export const projects = gql`
     id: ID!
     title: String!
     accessibility: Accessibility!
-    createdAt: String!
-    updatedAt: String!
+    # owner: String
+    createdAt: Date!
+    updatedAt: Date!
+    "fail on creation because not exit yet"
+    sections: [Section]
   }
 
   input CreateProjectArgs {
     title: String!
+    accessibility: Accessibility!
+  }
+
+  input UpdateProjectArgs {
+    title: String
     accessibility: Accessibility
   }
 
-  type CreateProjectMutationResponse implements MutationResponse {
-    code: String!
+  type ProjectMutationResponse implements MutationResponse {
+    code: Int!
     success: Boolean!
     message: String!
     project: Project
   }
 
+  type ProjectsResponse implements ListResponse {
+    total: Int!
+    projects: [Project!]!
+  }
+
   type Query {
-    project("Description for argument" id: ID!): Project
-    projects(skip: Int, take: Int): [Project]
+    getProject("Description for argument" id: ID!): Project
+    getProjects(args: PaginationArgs!): ProjectsResponse
   }
   type Mutation {
-    createProject(args: CreateProjectArgs!): CreateProjectMutationResponse
+    createProject(data: CreateProjectArgs!): ProjectMutationResponse
+    updateProject(id: ID!, data: UpdateProjectArgs!): ProjectMutationResponse
+    deleteProject(id: ID!): ProjectMutationResponse
   }
 `;
