@@ -3,8 +3,6 @@ import { Project } from '../@types/project';
 import { CreateProjectArgs } from '../generated/graphql';
 import { Knex } from 'knex';
 
-const FIRST_INDEX = 0;
-const EMPTY_OBJECT = {};
 class ProjectRepo {
   TABLE_NAME = 'projects';
   TABLE_ALIAS = 'p';
@@ -38,10 +36,11 @@ class ProjectRepo {
   }
 
   async count(): Promise<number> {
-    const data = await this.getBuilder().count('id').first();
-    if (typeof data === 'string') return Number.parseInt(data);
-    if (typeof data === 'number') return data;
-    return 0;
+    const { count } = await pool
+      .knex<Project>({ [this.TABLE_ALIAS]: this.TABLE_NAME })
+      .count()
+      .first<{ count: number }>();
+    return count;
   }
 }
 

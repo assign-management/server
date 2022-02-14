@@ -1,7 +1,8 @@
 import { default as request } from 'supertest';
 import { app } from '../../app';
 import { ProjectRepository } from '../../repositories';
-import gql from 'graphql-tag';
+import { print } from 'graphql';
+import { gql } from 'apollo-server-core';
 
 describe('projects', () => {
   test('passes when given an empty string', () => {
@@ -9,38 +10,38 @@ describe('projects', () => {
     expect('hello').not.toBeEmpty();
   });
   it('create a project', async () => {
-    const createProjectMutation = gql`
-      mutation Mutation($args: CreateProjectArgs!) {
-        createProject(args: $args) {
-          project {
-            title
-          }
-        }
-      }
-    `;
-
     const { httpServer } = await app();
     const startingCount = await ProjectRepository.count();
     const { body } = await request(httpServer)
       .post('/graphql')
-      .set('Content-Type', 'application/json')
-      .set('Accept', 'application/json')
       .send({
-        variables: { args: { title: 'test' } },
-        operationName: 'Mutation',
-        query: `mutation Mutation($args: CreateProjectArgs!) {
-            createProject(args: $args) {
+        variables: {
+          data: {
+            title: 'test2',
+            accessibility: 'PRIVATE',
+          },
+        },
+        query: print(gql`
+          mutation ($data: CreateProjectArgs!) {
+            createProject(data: $data) {
+              code
+              success
+              message
               project {
-                title
                 id
+                title
                 accessibility
+                createdAt
+                updatedAt
+              }
             }
-        }
-      }
-        `,
+          }
+        `),
       });
 
     const finishingCount = await ProjectRepository.count();
+    console.log('finishingCount', finishingCount);
+
     expect(finishingCount - startingCount).toEqual(1);
   });
 });
