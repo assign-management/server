@@ -1055,7 +1055,7 @@
         "description": null,
         "fields": [
           {
-            "name": "getProject",
+            "name": "fetchProject",
             "description": null,
             "args": [
               {
@@ -1084,7 +1084,7 @@
             "deprecationReason": null
           },
           {
-            "name": "getProjects",
+            "name": "fetchProjects",
             "description": null,
             "args": [
               {

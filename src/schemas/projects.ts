@@ -52,8 +52,8 @@ export const projectSchemas = gql`
   }
 
   type Query {
-    getProject("Description for argument" id: ID!): Project
-    getProjects(args: PaginationArgs!): ProjectsResponse
+    fetchProject("Description for argument" id: ID!): Project
+    fetchProjects(args: PaginationArgs!): ProjectsResponse
   }
   type Mutation {
     createProject(data: CreateProjectArgs!): ProjectMutationResponse

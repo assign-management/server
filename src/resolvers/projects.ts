@@ -1,21 +1,21 @@
 import { ProjectResolvers, Resolvers } from '../generated/graphql';
-import { ProjectRepository } from '../repositories';
+import { projectRepository } from '../repositories';
 import { ProjectServices } from '../services/projects';
 import { mockSection } from './sections';
 
 export const projectResolvers: Resolvers<ProjectResolvers> = {
   Query: {
-    getProject: async (_, { id }) => ProjectServices.getProject(id),
-    getProjects: async (_, { args }, context, info) => {
+    fetchProject: async (_, { id }) => ProjectServices.fetch(id),
+    fetchProjects: async (_, { args }, context, info) => {
       console.log('info', info);
 
-      return ProjectServices.getProjects(args);
+      return ProjectServices.fetchProjects(args);
     },
   },
   Mutation: {
-    createProject: async (_, { data }) => ProjectServices.createProject(data),
-    updateProject: async (_, { id, data }) => ProjectServices.updateProject(id, data),
-    deleteProject: (_, { id }) => ProjectServices.deleteProject(id),
+    createProject: async (_, { data }) => ProjectServices.create(data),
+    updateProject: async (_, { id, data }) => ProjectServices.update(id, data),
+    deleteProject: (_, { id }) => ProjectServices.delete(id),
     // },
     // Project: {
     //   sections: ({ id }, __args) => [mockSection],

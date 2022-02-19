@@ -1,6 +1,6 @@
 import { default as request } from 'supertest';
 import { app } from '../../app';
-import { ProjectRepository } from '../../repositories';
+import { projectRepository } from '../../repositories';
 import { print } from 'graphql';
 import { gql } from 'apollo-server-core';
 
@@ -11,7 +11,7 @@ describe('projects', () => {
   });
   it('create a project', async () => {
     const { httpServer } = await app();
-    const startingCount = await ProjectRepository.count();
+    const startingCount = await projectRepository.count();
     const { body } = await request(httpServer)
       .post('/graphql')
       .send({
@@ -39,7 +39,7 @@ describe('projects', () => {
         `),
       });
 
-    const finishingCount = await ProjectRepository.count();
+    const finishingCount = await projectRepository.count();
     console.log('finishingCount', finishingCount);
 
     expect(finishingCount - startingCount).toEqual(1);

@@ -185,8 +185,8 @@ export type ProjectsResponse = ListResponse & {
 
 export type Query = {
   __typename?: 'Query';
-  getProject?: Maybe<Project>;
-  getProjects?: Maybe<ProjectsResponse>;
+  fetchProject?: Maybe<Project>;
+  fetchProjects?: Maybe<ProjectsResponse>;
   profile?: Maybe<User>;
   /** @deprecated will be included in getting a single project query */
   sections?: Maybe<Array<Maybe<Section>>>;
@@ -194,12 +194,12 @@ export type Query = {
 };
 
 
-export type QueryGetProjectArgs = {
+export type QueryFetchProjectArgs = {
   id: Scalars['ID'];
 };
 
 
-export type QueryGetProjectsArgs = {
+export type QueryFetchProjectsArgs = {
   args: PaginationArgs;
 };
 
@@ -421,8 +421,8 @@ export type ProjectsResponseResolvers<ContextType = any, ParentType extends Reso
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  getProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<QueryGetProjectArgs, 'id'>>;
-  getProjects?: Resolver<Maybe<ResolversTypes['ProjectsResponse']>, ParentType, ContextType, RequireFields<QueryGetProjectsArgs, 'args'>>;
+  fetchProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<QueryFetchProjectArgs, 'id'>>;
+  fetchProjects?: Resolver<Maybe<ResolversTypes['ProjectsResponse']>, ParentType, ContextType, RequireFields<QueryFetchProjectsArgs, 'args'>>;
   profile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
   sections?: Resolver<Maybe<Array<Maybe<ResolversTypes['Section']>>>, ParentType, ContextType, RequireFields<QuerySectionsArgs, 'projectId'>>;
   task?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, Partial<QueryTaskArgs>>;

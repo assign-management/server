@@ -2,13 +2,13 @@ import { Knex } from 'knex';
 
 export async function up(knex: Knex): Promise<void> {
   await knex.schema.raw(`
-  CREATE OR REPLACE FUNCTION update_modified_column()   
-  RETURNS TRIGGER AS $$
-  BEGIN
-      NEW."updatedAt" = now();
-      RETURN NEW;   
-  END;
-  $$ language 'plpgsql';
+    CREATE OR REPLACE FUNCTION update_modified_column()   
+    RETURNS TRIGGER AS $$
+    BEGIN
+        NEW."updatedAt" = now();
+        RETURN NEW;   
+    END;
+    $$ language 'plpgsql';
   `);
 }
 
