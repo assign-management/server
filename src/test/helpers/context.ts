@@ -1,5 +1,5 @@
-import { knexConfig } from '../database/knexfile';
-import pool from '../pool';
+import { knexConfig } from '../../database/knexfile';
+import pool from '../../pool';
 
 export class Context {
   static async build() {

@@ -4,7 +4,7 @@
  * For additional Jest matchers maintained by the Jest Community check out jest-extended.
  * @link https://github.com/jest-community/jest-extended
  */
-import { Context } from './context';
+import { Context } from './helpers/context';
 
 let content: Context;
 beforeAll(async () => {

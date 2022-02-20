@@ -1,13 +1,11 @@
 import { gql } from 'apollo-server-core';
 import { graphqlRequest } from '../../test/helpers';
+import { createProjectArgsMock } from '../../test/mock/projects';
 
 describe('projects', () => {
   describe('create project', () => {
     it('should create a project if the params valid', async () => {
-      const data = {
-        title: 'test2',
-        accessibility: 'PRIVATE',
-      };
+      const data = createProjectArgsMock;
       const { body } = await graphqlRequest({
         query: gql`
           mutation ($data: CreateProjectArgs!) {
