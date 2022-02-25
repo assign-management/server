@@ -1,22 +1,26 @@
-import Ajv, { DefinedError, JSONSchemaType } from 'ajv';
+import Ajv, { DefinedError, JSONSchemaType, ValidateFunction } from 'ajv';
 import addFormats from 'ajv-formats';
 import { UserInputError } from 'apollo-server-core';
 
-export const ajv = addFormats(new Ajv({ allErrors: true }));
+const ajv = addFormats(new Ajv({ allErrors: true }));
 
 interface Props<T> {
   schema: JSONSchemaType<T>;
 }
 
-export type ValidateFunction = (data: unknown) => void;
+export class Validation<T> {
+  validateFunction: ValidateFunction<T>;
 
-export const generateModelValidation = <T>({ schema }: Props<T>): ValidateFunction => {
-  const validate = ajv.compile<T>(schema);
-  return (data) => {
-    if (!validate(data)) {
+  constructor(private readonly jsonSchema: JSONSchemaType<T>) {
+    this.validateFunction = ajv.compile<T>(jsonSchema);
+  }
+
+  validate(data: unknown) {
+    if (!this.validateFunction(data)) {
       // The type cast is needed, as Ajv uses a wider type to allow extension
       // You can extend this type to include your error types as needed.
-      for (const err of validate.errors as DefinedError[]) {
+      const errors: DefinedError[] = this.validateFunction.errors as DefinedError[];
+      for (const err of errors) {
         switch (err.keyword) {
           case 'type':
             // err type is narrowed here to have "type" error params properties
@@ -24,12 +28,13 @@ export const generateModelValidation = <T>({ schema }: Props<T>): ValidateFuncti
             break;
         }
       }
-      const [firstError] = validate.errors as DefinedError[];
-      throw new UserInputError(firstError.message as string);
+      const [{ message, instancePath }] = errors;
+      if (message) {
+        const argumentName = instancePath.replace('/', '');
+        throw new UserInputError(`${argumentName} ${message}`, {
+          argumentName,
+        });
+      }
     }
-  };
-};
-
-export interface ValidationFunctions {
-  [key: string]: ValidateFunction;
+  }
 }

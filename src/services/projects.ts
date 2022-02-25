@@ -9,7 +9,8 @@ import {
   ProjectsResponse,
   UpdateProjectArgs,
 } from '../generated/graphql';
-import { projectRepository } from '../repositories';
+import { createProjectArg } from '../repositories';
+import { createProjectValidation } from '../validations';
 import { mockSection } from './sections';
 
 const mockProject = (title?: string, accessibility?: Accessibility) => {
@@ -27,27 +28,28 @@ const mockProject = (title?: string, accessibility?: Accessibility) => {
 
 export abstract class ProjectServices {
   static async create(data: CreateProjectArgs): Promise<ProjectMutationResponse> {
-    const project = await projectRepository.create(data);
+    createProjectValidation.validate(data);
+    const project = await createProjectArg.create(data);
     return { code: 201, success: true, message: 'User email was successfully updated', project };
   }
   static async update(id: string, data: any): Promise<ProjectMutationResponse> {
-    const project = await projectRepository.update({ id }, data);
+    const project = await createProjectArg.update({ id }, data);
     return { code: 200, success: true, message: '', project };
   }
 
   static async fetchProjects(args: PaginationArgs): Promise<ProjectsResponse> {
-    const projects = await projectRepository.find();
+    const projects = await createProjectArg.find();
     console.log('projects', projects);
 
     return { total: 2, projects };
   }
 
   static async fetch(id: string): Promise<Project> {
-    return projectRepository.findOne({ id });
+    return createProjectArg.findOne({ id });
   }
 
   static async delete(id: string): Promise<ProjectMutationResponse> {
-    const project = await projectRepository.delete({ id });
+    const project = await createProjectArg.delete({ id });
     return { code: 204, message: '', success: true, project };
   }
 }

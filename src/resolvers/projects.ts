@@ -1,5 +1,5 @@
 import { ProjectResolvers, Resolvers } from '../generated/graphql';
-import { projectRepository } from '../repositories';
+import { createProjectArg } from '../repositories';
 import { ProjectServices } from '../services/projects';
 import { mockSection } from './sections';
 
