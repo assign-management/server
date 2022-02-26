@@ -5,9 +5,14 @@
  * @link https://github.com/jest-community/jest-extended
  */
 import { Context } from './helpers/context';
+import { app } from '../app';
 
-let content: Context;
+declare global {
+  var context: Context;
+}
+
 beforeAll(async () => {
-  content = await Context.build();
+  const { httpServer } = await app();
+  global.context = await Context.build(httpServer);
 });
-afterAll(() => content.close());
+afterAll(() => global.context.close());

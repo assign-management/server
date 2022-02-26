@@ -1,5 +1,4 @@
 import { Knex, knex } from 'knex';
-import { Model } from 'objection';
 import format from 'pg-format';
 import { DATABASE_NAME } from './config/environment';
 import { Logger } from './utils/logger';
@@ -18,7 +17,6 @@ class Pool {
   async connect(options: Knex.Config) {
     try {
       this.knex = knex(options);
-      Model.knex(this.knex);
       const res = await this.knex.select(this.knex.raw('1 + 1'));
       Logger.info(`established connection with the database: ${DATABASE_NAME}`);
       return res;

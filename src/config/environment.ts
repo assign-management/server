@@ -3,8 +3,8 @@ import { randomBytes } from 'crypto';
 import { Env } from './constants';
 
 config({
-  debug: true,
-  path: './',
+  debug: !process.env.NODE_ENV || process.env.NODE_ENV == Env.Development,
+  path: './.env',
 });
 
 const randomKey = randomBytes(32).toString('hex');

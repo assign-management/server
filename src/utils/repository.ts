@@ -18,6 +18,8 @@ interface RepositoryConfig<T, R> {
   readonly tableAlias?: string;
 }
 
+const CHUCK_SIZE = 1000;
+
 export abstract class Repository<T = any, R = any> {
   knex = pool.knex;
 
@@ -33,9 +35,14 @@ export abstract class Repository<T = any, R = any> {
     return this.repositoryConfig.returnedColumns;
   }
 
+  public get table() {
+    return { [this.tableAlias]: this.tableName };
+  }
+
   constructor(public repositoryConfig: RepositoryConfig<T, R>) {}
+
   getBuilder(): Knex.QueryBuilder<T> {
-    return pool.knex({ [this.tableAlias]: this.tableName });
+    return pool.knex(this.table);
   }
 
   queryTable() {
@@ -67,12 +74,28 @@ export abstract class Repository<T = any, R = any> {
     const [project] = (await this.mutateTable().insert(args as any, this.returnedColumns as readonly string[])) as T[];
     return project;
   }
+  /**
+   * @link https://knexjs.org/#Utility-BatchInsert
+   * @param args array of arguments that required to create a row
+   * @returns rows
+   */
+  async bulkCreate(args: R[]): Promise<T[]> {
+    return pool.knex
+      .batchInsert<R>(this.tableName, args as any, CHUCK_SIZE)
+      .returning<T[]>(this.returnedColumns as any) as Promise<T[]>;
+  }
 
   async delete(where: Partial<T> = {}): Promise<T> {
     const [project] = await this.getBuilder()
       .where(where)
       .delete(this.returnedColumns as readonly string[]);
     return project;
+  }
+
+  async bulkDelete(column: keyof T, values: any[]) {
+    return this.mutateTable()
+      .whereIn(column as any, values as any)
+      .delete();
   }
 
   async update(where: Partial<T> = {}, args: Partial<R> = {}): Promise<T> {

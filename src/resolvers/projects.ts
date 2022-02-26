@@ -1,16 +1,10 @@
 import { ProjectResolvers, Resolvers } from '../generated/graphql';
-import { createProjectArg } from '../repositories';
 import { ProjectServices } from '../services/projects';
-import { mockSection } from './sections';
 
 export const projectResolvers: Resolvers<ProjectResolvers> = {
   Query: {
     fetchProject: async (_, { id }) => ProjectServices.fetch(id),
-    fetchProjects: async (_, { args }, context, info) => {
-      console.log('info', info);
-
-      return ProjectServices.fetchProjects(args);
-    },
+    fetchProjects: async (_, { args }, context, info) => ProjectServices.fetchProjects(args),
   },
   Mutation: {
     createProject: async (_, { data }) => ProjectServices.create(data),

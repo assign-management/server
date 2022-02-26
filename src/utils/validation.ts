@@ -3,11 +3,6 @@ import addFormats from 'ajv-formats';
 import { UserInputError } from 'apollo-server-core';
 
 const ajv = addFormats(new Ajv({ allErrors: true }));
-
-interface Props<T> {
-  schema: JSONSchemaType<T>;
-}
-
 export class Validation<T> {
   validateFunction: ValidateFunction<T>;
 
@@ -24,7 +19,6 @@ export class Validation<T> {
         switch (err.keyword) {
           case 'type':
             // err type is narrowed here to have "type" error params properties
-            console.log(err.params.type);
             break;
         }
       }

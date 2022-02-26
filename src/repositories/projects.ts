@@ -4,7 +4,7 @@ import { Repository } from '../utils/repository';
 
 class ProjectRepository extends Repository<Project, CreateProjectArgs> {}
 
-export const createProjectArg = new ProjectRepository({
+export const projectRepository = new ProjectRepository({
   tableName: 'projects',
   returnedColumns: ['id', 'title', 'accessibility', 'createdAt', 'updatedAt'],
 });

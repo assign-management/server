@@ -3,6 +3,7 @@ import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import {
   ApolloServerPluginDrainHttpServer,
   ApolloServerPluginLandingPageDisabled,
+  ApolloServerPluginUsageReportingDisabled,
   UserInputError,
 } from 'apollo-server-core';
 import http, { Server } from 'http';
@@ -22,11 +23,12 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
     resolvers,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
+      ApolloServerPluginUsageReportingDisabled(),
       isEnv(Env.Production)
         ? ApolloServerPluginLandingPageDisabled()
         : ApolloServerPluginLandingPageLocalDefault({
             variables: {
-              createProjectArgsMock,
+              createProjectArgs: createProjectArgsMock(),
             } as any,
           }),
     ],

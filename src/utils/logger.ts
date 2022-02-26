@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import winston from 'winston';
 import { Env } from '../config/constants';
 import { isEnv } from '../config/environment';
@@ -10,6 +11,8 @@ const levels = Object.freeze({
   verbose: 4,
   debug: 5,
 });
+
+const levelKeys = _.invert(levels);
 
 // const colors = {
 //   error: 'red',
@@ -39,9 +42,18 @@ const transports = [
   }),
 ];
 
+const level = isEnv(Env.Development)
+  ? // if env is development show all logs
+    levelKeys[levels.debug]
+  : isEnv(Env.Production)
+  ? // if env is production show info logs and above
+    levelKeys[levels.info]
+  : // if env is test show only error logs and above
+    levelKeys[levels.error];
+
 export const Logger = winston.createLogger({
   format,
-  level: isEnv(Env.Development) ? 'debug' : 'info',
+  level,
   levels,
   transports,
 });

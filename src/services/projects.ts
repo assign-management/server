@@ -2,15 +2,14 @@ import { faker } from '@faker-js/faker';
 import {
   Accessibility,
   CreateProjectArgs,
-  InputMaybe,
   PaginationArgs,
   Project,
   ProjectMutationResponse,
   ProjectsResponse,
-  UpdateProjectArgs,
 } from '../generated/graphql';
-import { createProjectArg } from '../repositories';
+import { projectRepository } from '../repositories';
 import { createProjectValidation } from '../validations';
+import { UUIDValidation } from '../validations/common';
 import { mockSection } from './sections';
 
 const mockProject = (title?: string, accessibility?: Accessibility) => {
@@ -29,27 +28,27 @@ const mockProject = (title?: string, accessibility?: Accessibility) => {
 export abstract class ProjectServices {
   static async create(data: CreateProjectArgs): Promise<ProjectMutationResponse> {
     createProjectValidation.validate(data);
-    const project = await createProjectArg.create(data);
+    const project = await projectRepository.create(data);
     return { code: 201, success: true, message: 'User email was successfully updated', project };
   }
   static async update(id: string, data: any): Promise<ProjectMutationResponse> {
-    const project = await createProjectArg.update({ id }, data);
+    const project = await projectRepository.update({ id }, data);
     return { code: 200, success: true, message: '', project };
   }
 
   static async fetchProjects(args: PaginationArgs): Promise<ProjectsResponse> {
-    const projects = await createProjectArg.find();
-    console.log('projects', projects);
+    const projects = await projectRepository.find();
 
     return { total: 2, projects };
   }
 
   static async fetch(id: string): Promise<Project> {
-    return createProjectArg.findOne({ id });
+    UUIDValidation.validate(id);
+    return projectRepository.findOne({ id });
   }
 
   static async delete(id: string): Promise<ProjectMutationResponse> {
-    const project = await createProjectArg.delete({ id });
+    const project = await projectRepository.delete({ id });
     return { code: 204, message: '', success: true, project };
   }
 }
