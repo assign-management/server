@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker';
-import { Accessibility } from '../generated/graphql';
+import { Accessibility } from '../types/generated/graphql';
 
 export const mockSection = (id: string) => ({
   id: faker.datatype.uuid(),

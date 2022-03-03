@@ -1,4 +1,4 @@
-import { ProjectResolvers, Resolvers } from '../generated/graphql';
+import { ProjectResolvers, Resolvers } from '../types/generated/graphql';
 import { ProjectServices } from '../services/projects';
 
 export const projectResolvers: Resolvers<ProjectResolvers> = {

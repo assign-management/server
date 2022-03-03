@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker';
 import _ from 'lodash';
-import { Accessibility } from '../../generated/graphql';
+import { Accessibility } from '../../types/generated/graphql';
 
 export const createProjectArgsMock = () => ({
   title: faker.name.title(),

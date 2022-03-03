@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 import { gql, UserInputError } from 'apollo-server-core';
-import { CreateProjectArgs, Project } from '../../generated/graphql';
+import { CreateProjectArgs, Project } from '../../types/generated/graphql';
 import { projectRepository } from '../../repositories';
 import { graphqlRequest } from '../../test/helpers';
 import { formatToResponse } from '../../test/helpers/format-to-response';

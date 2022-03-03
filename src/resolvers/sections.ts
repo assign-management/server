@@ -1,4 +1,4 @@
-import { Resolvers, SectionResolvers } from '../generated/graphql';
+import { Resolvers, SectionResolvers } from '../types/generated/graphql';
 
 export const mockSection = {
   id: 'tegwe',

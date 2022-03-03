@@ -1,7 +1,7 @@
 import { UserInputError } from 'apollo-server-core';
 import { GraphQLScalarType, Kind } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
-import { Resolvers } from '../generated/graphql';
+import { Resolvers } from '../types/generated/graphql';
 
 /**
  * @link https://www.apollographql.com/docs/apollo-server/schema/custom-scalars

@@ -1,6 +1,6 @@
 import { Knex } from 'knex';
-import { Project } from '../@types/project';
-import { Accessibility, CreateProjectArgs, UpdateProjectArgs } from '../generated/graphql';
+import { Project } from '../types/project';
+import { Accessibility, CreateProjectArgs, UpdateProjectArgs } from '../types/generated/graphql';
 import { Validation } from '../utils/validation';
 
 export const createProjectValidation = new Validation<CreateProjectArgs>({

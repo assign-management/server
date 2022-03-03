@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import { Resolvers } from '../generated/graphql';
+import { Resolvers } from '../types/generated/graphql';
 import { commonResolvers } from './common';
 import { projectResolvers } from './projects';
 import { userResolvers } from './users';

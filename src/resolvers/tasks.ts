@@ -1,4 +1,4 @@
-import { Resolvers, TaskResolvers } from '../generated/graphql';
+import { Resolvers, TaskResolvers } from '../types/generated/graphql';
 
 const mockTask = {
   id: 'test',

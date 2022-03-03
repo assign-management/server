@@ -1,5 +1,5 @@
 import { Knex } from 'knex';
-import { Project } from '../generated/graphql';
+import { Project } from '../types/generated/graphql';
 
 declare module 'knex/types/tables' {
   interface User {

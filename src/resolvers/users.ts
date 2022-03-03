@@ -1,4 +1,4 @@
-import { Resolvers, UserResolvers } from '../generated/graphql';
+import { Resolvers, UserResolvers } from '../types/generated/graphql';
 
 const userMock = Promise.resolve({
   email: 'test',

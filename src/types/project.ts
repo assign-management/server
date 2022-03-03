@@ -1,4 +1,4 @@
-import { Accessibility } from '../generated/graphql';
+import { Accessibility } from './generated/graphql';
 
 export interface Project {
   id: string;

@@ -6,7 +6,7 @@ import {
   Project,
   ProjectMutationResponse,
   ProjectsResponse,
-} from '../generated/graphql';
+} from '../types/generated/graphql';
 import { projectRepository } from '../repositories';
 import { createProjectValidation } from '../validations';
 import { UUIDValidation } from '../validations/common';
