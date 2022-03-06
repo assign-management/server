@@ -2,6 +2,7 @@ import { faker } from '@faker-js/faker';
 import {
   Accessibility,
   CreateProjectArgs,
+  MutationStatus,
   PaginationArgs,
   Project,
   ProjectMutationResponse,
@@ -29,17 +30,17 @@ export abstract class ProjectServices {
   static async create(data: CreateProjectArgs): Promise<ProjectMutationResponse> {
     createProjectValidation.validate(data);
     const project = await projectRepository.create(data);
-    return { code: 201, success: true, message: 'User email was successfully updated', project };
+    return { status: MutationStatus.Success, project };
   }
   static async update(id: string, data: any): Promise<ProjectMutationResponse> {
     const project = await projectRepository.update({ id }, data);
-    return { code: 200, success: true, message: '', project };
+    return { status: MutationStatus.Success, project };
   }
 
   static async fetchProjects(args: PaginationArgs): Promise<ProjectsResponse> {
     const projects = await projectRepository.find();
 
-    return { total: 2, projects };
+    return { total: projects.length, projects };
   }
 
   static async fetch(id: string): Promise<Project> {
@@ -49,6 +50,6 @@ export abstract class ProjectServices {
 
   static async delete(id: string): Promise<ProjectMutationResponse> {
     const project = await projectRepository.delete({ id });
-    return { code: 204, message: '', success: true, project };
+    return { status: MutationStatus.Success, project };
   }
 }

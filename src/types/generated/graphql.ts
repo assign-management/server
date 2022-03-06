@@ -133,20 +133,14 @@ export type MutationUpdateTaskArgs = {
   title?: InputMaybe<Scalars['String']>;
 };
 
-/**
- * The convention is to include in the response object each fields of the objects it modified.
- * read in greater details topic on the apollo documentation [apollo documentation](https://www.apollographql.com/docs/apollo-server/schema/schema/#structuring-mutation-responses).
- *
- * Following this pattern provides a client with helpful, detailed information about the result of each requested operation. Equipped with this information, developers can better react to operation failures in their client code.
- */
 export type MutationResponse = {
-  /** represents the status of the data transfer, (HTTP status) */
-  code: Scalars['Int'];
-  /** string that describes the result of the mutation. It is intended to be used in the UI of the product. */
-  message: Scalars['String'];
-  /** indicates whether the mutation was successful. This allows a coarse check by the client to know if there were failures. */
-  success: Scalars['Boolean'];
+  status: MutationStatus;
 };
+
+export enum MutationStatus {
+  Failure = 'FAILURE',
+  Success = 'SUCCESS'
+}
 
 export type PaginationArgs = {
   limit?: Scalars['Int'];
@@ -171,10 +165,8 @@ export type Project = {
 
 export type ProjectMutationResponse = MutationResponse & {
   __typename?: 'ProjectMutationResponse';
-  code: Scalars['Int'];
-  message: Scalars['String'];
   project?: Maybe<Project>;
-  success: Scalars['Boolean'];
+  status: MutationStatus;
 };
 
 export type ProjectsResponse = ListResponse & {
@@ -324,6 +316,7 @@ export type ResolversTypes = {
   ListResponse: ResolversTypes['ProjectsResponse'];
   Mutation: ResolverTypeWrapper<{}>;
   MutationResponse: ResolversTypes['ProjectMutationResponse'];
+  MutationStatus: MutationStatus;
   PaginationArgs: PaginationArgs;
   Project: ResolverTypeWrapper<Project>;
   ProjectMutationResponse: ResolverTypeWrapper<ProjectMutationResponse>;
@@ -391,9 +384,7 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type MutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['MutationResponse'] = ResolversParentTypes['MutationResponse']> = {
   __resolveType: TypeResolveFn<'ProjectMutationResponse', ParentType, ContextType>;
-  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
 };
 
 export type ProjectResolvers<ContextType = any, ParentType extends ResolversParentTypes['Project'] = ResolversParentTypes['Project']> = {
@@ -407,10 +398,8 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type ProjectMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectMutationResponse'] = ResolversParentTypes['ProjectMutationResponse']> = {
-  code?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  message?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType>;
-  success?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

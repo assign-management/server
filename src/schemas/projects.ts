@@ -38,11 +38,9 @@ export const projectSchemas = gql`
     title: String
     accessibility: Accessibility
   }
-
+  
   type ProjectMutationResponse implements MutationResponse {
-    code: Int!
-    success: Boolean!
-    message: String!
+    status: MutationStatus!
     project: Project
   }
 

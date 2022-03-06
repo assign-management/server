@@ -1,6 +1,6 @@
 import faker from '@faker-js/faker';
 import { gql, UserInputError } from 'apollo-server-core';
-import { CreateProjectArgs, Project } from '../../types/generated/graphql';
+import { CreateProjectArgs, MutationStatus, Project } from '../../types/generated/graphql';
 import { projectRepository } from '../../repositories';
 import { graphqlRequest } from '../../test/helpers';
 import { formatToResponse } from '../../test/helpers/format-to-response';
@@ -111,9 +111,7 @@ describe('projects', () => {
         query: gql`
           mutation ($data: CreateProjectArgs!) {
             createProject(data: $data) {
-              code
-              success
-              message
+              status
               project {
                 id
                 title
@@ -131,7 +129,7 @@ describe('projects', () => {
 
       const res = body.data.createProject;
 
-      expect(res.code).toBe(201);
+      expect(res.status).toBe(MutationStatus.Success);
       expect(res.project.title).toInclude(data.title);
       expect(res.project.accessibility).toMatch(data.accessibility!);
     });
