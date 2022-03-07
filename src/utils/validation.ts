@@ -10,6 +10,10 @@ export class Validation<T> {
     this.validateFunction = ajv.compile<T>(jsonSchema);
   }
 
+  public get schema(): JSONSchemaType<T> {
+    return this.jsonSchema;
+  }
+
   validate(data: unknown) {
     if (!this.validateFunction(data)) {
       // The type cast is needed, as Ajv uses a wider type to allow extension

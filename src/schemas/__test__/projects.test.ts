@@ -1,18 +1,18 @@
 import faker from '@faker-js/faker';
 import { gql, UserInputError } from 'apollo-server-core';
-import { CreateProjectArgs, MutationStatus, Project } from '../../types/generated/graphql';
+import { MutationStatus, Project } from '../../types/generated/graphql';
 import { projectRepository } from '../../repositories';
 import { graphqlRequest } from '../../test/helpers';
 import { formatToResponse } from '../../test/helpers/format-to-response';
 import { mockUserInputError } from '../../test/mock/common';
-import { createProjectArgsMock } from '../../test/mock/projects';
+import { generateProjectArgs, generateProjectArgsArray } from '../../test/mock/projects';
 
 describe('projects', () => {
   describe('fetchProject', () => {
     let project: Project;
 
     beforeEach(async () => {
-      project = await projectRepository.create(createProjectArgsMock() as CreateProjectArgs);
+      project = await projectRepository.create(generateProjectArgs());
     });
 
     afterEach(async () => {
@@ -69,8 +69,7 @@ describe('projects', () => {
   describe('fetchProjects', () => {
     let projects: Project[];
     beforeEach(async () => {
-      const mockData = Array.from({ length: 2 }, () => createProjectArgsMock()) as CreateProjectArgs[];
-      projects = await projectRepository.bulkCreate(mockData);
+      projects = await projectRepository.bulkCreate(generateProjectArgsArray());
     });
     afterEach(async () => {
       const ids = projects.map(({ id }) => id);
@@ -106,7 +105,7 @@ describe('projects', () => {
   });
   describe('create project', () => {
     it('should create a project if the params valid', async () => {
-      const data = createProjectArgsMock();
+      const data = generateProjectArgs();
       const { body } = await graphqlRequest({
         query: gql`
           mutation ($data: CreateProjectArgs!) {

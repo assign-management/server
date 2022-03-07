@@ -19,6 +19,11 @@ export const createProjectValidation = new Validation<CreateProjectArgs>({
   },
 });
 
+export const createProjectArrayValidation = new Validation<Array<CreateProjectArgs>>({
+  type: 'array',
+  items: createProjectValidation.schema,
+});
+
 export const updateProjectValidation = new Validation<UpdateProjectArgs>({
   type: 'object',
   properties: {

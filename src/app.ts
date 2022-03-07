@@ -13,7 +13,7 @@ import { GraphQLError } from 'graphql';
 import { isEnv } from './config/environment';
 import { Env } from './config/constants';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core/dist/plugin/landingPage/default';
-import { createProjectArgsMock } from './test/mock/projects';
+import { generateProjectArgs } from './test/mock/projects';
 
 export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloServer<ExpressContext> }> => {
   const app = express();
@@ -28,7 +28,7 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
         ? ApolloServerPluginLandingPageDisabled()
         : ApolloServerPluginLandingPageLocalDefault({
             variables: {
-              createProjectArgs: createProjectArgsMock(),
+              createProjectArgs: generateProjectArgs(),
             } as any,
           }),
     ],

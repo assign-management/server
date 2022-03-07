@@ -1,8 +1,14 @@
+import faker from '@faker-js/faker';
 import { Knex } from 'knex';
+import { generateProjectArgsArray } from '../../test/mock/projects';
+import { CreateProjectArgs } from '../../types/generated/graphql';
 
 export async function seed(knex: Knex): Promise<void> {
+  await knex('projects').del();
+  await knex('projects').insert(generateProjectArgsArray());
+
   // Deletes ALL existing entries
-  //   await knex('projects').del();
+  //
   // Inserts seed entries
   // await knex("table_name").insert([
   //     { id: 1, colName: "rowValue1" },
