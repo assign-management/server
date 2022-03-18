@@ -78,8 +78,8 @@ describe('projects', () => {
     it('should return all projects', async () => {
       const res = await graphqlRequest({
         query: gql`
-          query FetchProjects($args: PaginationArgs!) {
-            fetchProjects(args: $args) {
+          query FetchProjects {
+            fetchProjects {
               total
               projects {
                 title
@@ -91,12 +91,6 @@ describe('projects', () => {
             }
           }
         `,
-        variables: {
-          args: {
-            offset: 0,
-            limit: 20,
-          },
-        },
       });
       const data = res.body.data.fetchProjects;
       expect(data.projects).toIncludeSameMembers(formatToResponse(projects));

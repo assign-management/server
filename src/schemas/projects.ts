@@ -25,8 +25,6 @@ export const projectSchemas = gql`
     # owner: String
     createdAt: Date!
     updatedAt: Date!
-    "fail on creation because not exit yet"
-    sections: [Section]
   }
 
   input CreateProjectArgs {
@@ -38,7 +36,7 @@ export const projectSchemas = gql`
     title: String
     accessibility: Accessibility
   }
-  
+
   type ProjectMutationResponse implements MutationResponse {
     status: MutationStatus!
     project: Project
@@ -51,7 +49,7 @@ export const projectSchemas = gql`
 
   type Query {
     fetchProject("Description for argument" id: ID!): Project
-    fetchProjects(args: PaginationArgs!): ProjectsResponse
+    fetchProjects(args: PaginationArgs): ProjectsResponse
   }
   type Mutation {
     createProject(data: CreateProjectArgs!): ProjectMutationResponse

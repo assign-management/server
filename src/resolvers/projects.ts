@@ -10,8 +10,5 @@ export const projectResolvers: Resolvers<ProjectResolvers> = {
     createProject: async (_, { data }) => ProjectServices.create(data),
     updateProject: async (_, { id, data }) => ProjectServices.update(id, data),
     deleteProject: (_, { id }) => ProjectServices.delete(id),
-    // },
-    // Project: {
-    //   sections: ({ id }, __args) => [mockSection],
   },
 };

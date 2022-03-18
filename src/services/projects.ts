@@ -1,7 +1,6 @@
-import { faker } from '@faker-js/faker';
 import {
-  Accessibility,
   CreateProjectArgs,
+  InputMaybe,
   MutationStatus,
   PaginationArgs,
   Project,
@@ -11,21 +10,6 @@ import {
 import { projectRepository } from '../repositories';
 import { createProjectValidation } from '../validations';
 import { UUIDValidation } from '../validations/common';
-import { mockSection } from './sections';
-
-const mockProject = (title?: string, accessibility?: Accessibility) => {
-  const id = faker.datatype.uuid();
-
-  return {
-    accessibility: accessibility || faker.datatype.boolean() ? Accessibility.Public : Accessibility.Private,
-    createdAt: faker.date.recent().toISOString(),
-    id,
-    title: title || faker.name.title(),
-    updatedAt: faker.date.recent().toISOString(),
-    sections: [mockSection(id)],
-  };
-};
-
 export abstract class ProjectServices {
   static async create(data: CreateProjectArgs): Promise<ProjectMutationResponse> {
     createProjectValidation.validate(data);
@@ -37,8 +21,10 @@ export abstract class ProjectServices {
     return { status: MutationStatus.Success, project };
   }
 
-  static async fetchProjects(args: PaginationArgs): Promise<ProjectsResponse> {
-    const projects = await projectRepository.find();
+  static async fetchProjects(args: InputMaybe<PaginationArgs> | undefined): Promise<ProjectsResponse> {
+    const skip = args?.offset ?? 0;
+    const take = args?.limit ?? 20;
+    const projects = await projectRepository.find({ skip, take });
 
     return { total: projects.length, projects };
   }

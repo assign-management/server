@@ -1,28 +1,13 @@
 import { Resolvers, SectionResolvers } from '../types/generated/graphql';
-
-export const mockSection = {
-  id: 'tegwe',
-  createdAt: 'new Date()',
-  tasks: [],
-  title: 'test',
-  updatedAt: 'new Date()',
-  projectId: 'ewgew',
-};
+import * as sectionsService from '../services/sections';
 
 export const sectionResolvers: Resolvers<SectionResolvers> = {
   Query: {
-    sections: (_parent, { projectId }) => [],
+    fetchSections: () => sectionsService.fetchSections(),
   },
   Mutation: {
-    createSection: async (_parent, { projectId, ...args }) => {
-      return Promise.resolve(mockSection);
-    },
-    updateSection: async (_parent, { id, ...args }) => {
-      return Promise.resolve(mockSection);
-    },
-    renameSection: async (_parent, { id, ...args }) => {
-      return Promise.resolve(mockSection);
-    },
-    deleteSection: (_parent, { id }) => Promise.resolve(mockSection),
+    createSection: async (_parent, { args }) => sectionsService.createSection(args),
+    updateSection: async (_parent, { id, args }) => sectionsService.updateSection(id, args),
+    deleteSection: (_parent, { id }) => sectionsService.deleteSection(id),
   },
 };

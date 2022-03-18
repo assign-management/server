@@ -9,15 +9,15 @@ export const commonSchemas = gql`
   }
 
   input PaginationArgs {
-    offset: Int! = 0
-    limit: Int! = 20
+    offset: Int = 0
+    limit: Int = 20
   }
-  
+
   enum MutationStatus {
     SUCCESS
     FAILURE
   }
-  
+
   interface MutationResponse {
     status: MutationStatus!
   }

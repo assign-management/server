@@ -4,20 +4,40 @@ export const sectionSchemas = gql`
   type Section {
     title: String
     id: ID!
-    createdAt: String
-    updatedAt: String
+    createdAt: Date!
+    updatedAt: Date!
     projectId: ID!
     tasks: [Task]
   }
 
+  type SectionsResponse implements ListResponse {
+    total: Int!
+    sections: [Section!]!
+  }
+
+  input CreateSectionArgs {
+    title: String!
+    projectId: ID!
+  }
+
+  input UpdateSectionArgs {
+    title: String
+    projectId: ID
+  }
+
+  type SectionMutationResponse implements MutationResponse {
+    status: MutationStatus!
+    section: Section
+  }
+
   type Query {
-    sections(projectId: ID!): [Section] @deprecated(reason: "will be included in getting a single project query")
+    fetchSections(projectId: ID!): SectionsResponse
   }
 
   type Mutation {
-    createSection(projectId: ID!, title: String!): Section
-    updateSection(id: ID!, title: String): Section
-    deleteSection(id: ID!): Section
-    renameSection(id: ID!, title: String): Section
+    createSection(args: CreateSectionArgs!): SectionMutationResponse
+    updateSection(id: ID!, args: UpdateSectionArgs): SectionMutationResponse
+    deleteSection(id: ID!): SectionMutationResponse
+    # renameSection(id: ID!, title: String): Section
   }
 `;

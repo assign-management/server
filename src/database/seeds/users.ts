@@ -5,7 +5,7 @@ import { CreateProjectArgs } from '../../types/generated/graphql';
 
 export async function seed(knex: Knex): Promise<void> {
   await knex('projects').del();
-  await knex('projects').insert(generateProjectArgsArray());
+  await knex('projects').insert(generateProjectArgsArray(100));
 
   // Deletes ALL existing entries
   //
