@@ -8,7 +8,7 @@ export const projectResolvers: Resolvers<ProjectResolvers> = {
   },
   Mutation: {
     createProject: async (_, { data }) => ProjectServices.create(data),
-    updateProject: async (_, { id, data }) => ProjectServices.update(id, data),
+    updateProject: async (_, { args }) => ProjectServices.update(args),
     deleteProject: (_, { id }) => ProjectServices.delete(id),
   },
 };

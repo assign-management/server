@@ -2,7 +2,7 @@ import { gql } from 'apollo-server-core';
 
 export const sectionSchemas = gql`
   type Section {
-    title: String
+    title: String!
     id: ID!
     createdAt: Date!
     updatedAt: Date!
@@ -21,8 +21,8 @@ export const sectionSchemas = gql`
   }
 
   input UpdateSectionArgs {
+    id: ID!
     title: String
-    projectId: ID
   }
 
   type SectionMutationResponse implements MutationResponse {
@@ -35,9 +35,8 @@ export const sectionSchemas = gql`
   }
 
   type Mutation {
-    createSection(args: CreateSectionArgs!): SectionMutationResponse
-    updateSection(id: ID!, args: UpdateSectionArgs): SectionMutationResponse
+    createSection(data: CreateSectionArgs!): SectionMutationResponse
+    updateSection(args: UpdateSectionArgs!): SectionMutationResponse
     deleteSection(id: ID!): SectionMutationResponse
-    # renameSection(id: ID!, title: String): Section
   }
 `;

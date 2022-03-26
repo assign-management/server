@@ -1,15 +1,15 @@
-import { faker } from '@faker-js/faker';
 import { sectionRepository } from '../repositories/sections';
 import {
   CreateSectionArgs,
   MutationStatus,
   SectionMutationResponse,
   SectionsResponse,
+  UpdateSectionArgs,
 } from '../types/generated/graphql';
 import { createSectionValidation, updateSectionValidation } from '../validations/sections';
 
-export const fetchSections = async (): Promise<SectionsResponse> => {
-  const sections = await sectionRepository.find();
+export const fetchSections = async (projectId: string): Promise<SectionsResponse> => {
+  const sections = await sectionRepository.find({ where: { projectId } });
 
   return { total: sections.length, sections };
 };
@@ -25,13 +25,8 @@ export const createSection = async (data: CreateSectionArgs): Promise<SectionMut
   return { status: MutationStatus.Success, section };
 };
 
-export const updateSection = async (id: string, data: any): Promise<SectionMutationResponse> => {
+export const updateSection = async ({ id, ...data }: UpdateSectionArgs): Promise<SectionMutationResponse> => {
   updateSectionValidation.validate(data);
-  const section = await sectionRepository.update({ id }, data);
+  const section = await sectionRepository.update({ id }, data as any);
   return { status: MutationStatus.Success, section };
 };
-
-//  const fetch = async (id: string): Promise<Project> => {
-//   UUIDValidation.validate(id);
-//   return projectRepository.findOne({ id });
-// }

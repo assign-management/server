@@ -18,6 +18,13 @@ interface RepositoryConfig<T, R> {
   readonly tableAlias?: string;
 }
 
+export interface FindProps<T> {
+  where?: Partial<T>;
+  take?: number;
+  skip?: number;
+  orderBy?: OrderBy<T>[];
+}
+
 const CHUCK_SIZE = 1000;
 
 export abstract class Repository<T = any, R = any> {
@@ -66,8 +73,8 @@ export abstract class Repository<T = any, R = any> {
     return count;
   }
 
-  async findOne(where: Partial<T> = {}): Promise<T> {
-    return this.getBuilder().select().where(where).first<T>() as Promise<T>;
+  findOne(where: Partial<T> = {}): Knex.QueryBuilder<T> {
+    return this.getBuilder().select().where(where).first<T>();
   }
 
   async create(args: R): Promise<T> {
@@ -105,12 +112,7 @@ export abstract class Repository<T = any, R = any> {
     return project;
   }
 
-  async find({
-    where,
-    take,
-    skip,
-    orderBy,
-  }: { where?: Partial<T>; take?: number; skip?: number; orderBy?: OrderBy<T>[] } = {}): Promise<T[]> {
+  find({ where, take, skip, orderBy }: FindProps<T> = {}): Knex.QueryBuilder<T> {
     const query = this.queryTable().select();
     if (where) {
       query.where(where);

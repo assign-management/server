@@ -33,6 +33,7 @@ export const projectSchemas = gql`
   }
 
   input UpdateProjectArgs {
+    id: ID!
     title: String
     accessibility: Accessibility
   }
@@ -53,7 +54,7 @@ export const projectSchemas = gql`
   }
   type Mutation {
     createProject(data: CreateProjectArgs!): ProjectMutationResponse
-    updateProject(id: ID!, data: UpdateProjectArgs!): ProjectMutationResponse
+    updateProject(args: UpdateProjectArgs!): ProjectMutationResponse
     deleteProject(id: ID!): ProjectMutationResponse
   }
 `;

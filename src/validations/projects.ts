@@ -1,5 +1,6 @@
 import { Accessibility, CreateProjectArgs, UpdateProjectArgs } from '../types/generated/graphql';
 import { Validation } from '../utils/validation';
+import { UUIDValidation } from './common';
 
 export const createProjectValidation = new Validation<CreateProjectArgs>({
   type: 'object',
@@ -24,7 +25,9 @@ export const createProjectArrayValidation = new Validation<Array<CreateProjectAr
 
 export const updateProjectValidation = new Validation<UpdateProjectArgs>({
   type: 'object',
+  required: ['id'],
   properties: {
+    id: UUIDValidation.schema,
     title: {
       type: 'string',
       minLength: 1,

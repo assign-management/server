@@ -6,6 +6,7 @@ import {
   Project,
   ProjectMutationResponse,
   ProjectsResponse,
+  UpdateProjectArgs,
 } from '../types/generated/graphql';
 import { projectRepository } from '../repositories';
 import { createProjectValidation } from '../validations';
@@ -16,8 +17,8 @@ export abstract class ProjectServices {
     const project = await projectRepository.create(data);
     return { status: MutationStatus.Success, project };
   }
-  static async update(id: string, data: any): Promise<ProjectMutationResponse> {
-    const project = await projectRepository.update({ id }, data);
+  static async update({ id, ...data }: UpdateProjectArgs): Promise<ProjectMutationResponse> {
+    const project = await projectRepository.update({ id }, data as any);
     return { status: MutationStatus.Success, project };
   }
 

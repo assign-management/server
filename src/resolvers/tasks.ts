@@ -1,4 +1,5 @@
 import { Resolvers, TaskResolvers } from '../types/generated/graphql';
+import * as tasksService from '../services/tasks';
 
 const mockTask = {
   id: 'test',
@@ -12,8 +13,8 @@ const mockTask = {
 export const taskResolvers: Resolvers<TaskResolvers> = {
   Query: {},
   Mutation: {
-    createTask: async (_parent, { sectionId, ...args }) => Promise.resolve(mockTask),
-    setTaskDueDate: (_parent, { id, ...args }) => Promise.resolve(mockTask),
-    renameTask: async (_parent, { id, ...args }) => Promise.resolve(mockTask),
+    createTask: async (_parent, { args }) => tasksService.createTask(args),
+    deleteTask: (_parent, { id }) => tasksService.deleteTask(id),
+    updateTask: async (_parent, { args }) => tasksService.updateTask(args),
   },
 };
