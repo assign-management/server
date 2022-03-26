@@ -1,8 +1,8 @@
 import { Project } from '../types/project';
-import { Accessibility, CreateProjectArgs } from '../types/generated/graphql';
+import { Accessibility, CreateProjectData, UpdateProjectData } from '../types/generated/graphql';
 import { Repository } from '../utils/repository';
 
-class ProjectRepository extends Repository<Project, CreateProjectArgs> {
+class ProjectRepository extends Repository<Project, CreateProjectData, UpdateProjectData> {
   constructor() {
     super({
       tableName: 'projects',

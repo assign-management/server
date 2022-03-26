@@ -1,8 +1,7 @@
-import { CreateTaskArgs, UpdateTaskArgs } from '../types/generated/graphql';
+import { CreateTaskData, UpdateTaskData } from '../types/generated/graphql';
 import { Validation } from '../utils/validation';
-import { UUIDValidation } from './common';
 
-export const createTaskValidation = new Validation<CreateTaskArgs>({
+export const createTaskValidation = new Validation<CreateTaskData>({
   type: 'object',
   required: ['title', 'sectionId'],
   properties: {
@@ -18,16 +17,14 @@ export const createTaskValidation = new Validation<CreateTaskArgs>({
   },
 });
 
-export const createTaskArrayValidation = new Validation<Array<CreateTaskArgs>>({
+export const createTaskArrayValidation = new Validation<Array<CreateTaskData>>({
   type: 'array',
   items: createTaskValidation.schema,
 });
 
-export const updateTaskValidation = new Validation<UpdateTaskArgs>({
+export const updateTaskValidation = new Validation<UpdateTaskData>({
   type: 'object',
-  required: ['id'],
   properties: {
-    id: UUIDValidation.schema,
     title: {
       type: 'string',
       minLength: 1,

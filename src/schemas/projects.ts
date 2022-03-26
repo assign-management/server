@@ -27,13 +27,12 @@ export const projectSchemas = gql`
     updatedAt: Date!
   }
 
-  input CreateProjectArgs {
+  input CreateProjectData {
     title: String!
     accessibility: Accessibility!
   }
 
-  input UpdateProjectArgs {
-    id: ID!
+  input UpdateProjectData {
     title: String
     accessibility: Accessibility
   }
@@ -53,8 +52,8 @@ export const projectSchemas = gql`
     fetchProjects(args: PaginationArgs): ProjectsResponse
   }
   type Mutation {
-    createProject(data: CreateProjectArgs!): ProjectMutationResponse
-    updateProject(args: UpdateProjectArgs!): ProjectMutationResponse
+    createProject(data: CreateProjectData!): ProjectMutationResponse
+    updateProject(id: String!, data: UpdateProjectData!): ProjectMutationResponse
     deleteProject(id: ID!): ProjectMutationResponse
   }
 `;

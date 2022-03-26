@@ -1,8 +1,7 @@
-import { CreateSectionArgs, UpdateSectionArgs } from '../types/generated/graphql';
+import { CreateSectionData, UpdateSectionData } from '../types/generated/graphql';
 import { Validation } from '../utils/validation';
-import { UUIDValidation } from './common';
 
-export const createSectionValidation = new Validation<CreateSectionArgs>({
+export const createSectionValidation = new Validation<CreateSectionData>({
   type: 'object',
   required: ['title', 'projectId'],
   properties: {
@@ -18,16 +17,14 @@ export const createSectionValidation = new Validation<CreateSectionArgs>({
   },
 });
 
-export const createSectionArrayValidation = new Validation<Array<CreateSectionArgs>>({
+export const createSectionArrayValidation = new Validation<Array<CreateSectionData>>({
   type: 'array',
   items: createSectionValidation.schema,
 });
 
-export const updateSectionValidation = new Validation<UpdateSectionArgs>({
+export const updateSectionValidation = new Validation<UpdateSectionData>({
   type: 'object',
-  required: ['id'],
   properties: {
-    id: UUIDValidation.schema,
     title: {
       type: 'string',
       minLength: 1,

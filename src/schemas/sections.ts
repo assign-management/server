@@ -15,13 +15,12 @@ export const sectionSchemas = gql`
     sections: [Section!]!
   }
 
-  input CreateSectionArgs {
+  input CreateSectionData {
     title: String!
     projectId: ID!
   }
 
-  input UpdateSectionArgs {
-    id: ID!
+  input UpdateSectionData {
     title: String
   }
 
@@ -35,8 +34,8 @@ export const sectionSchemas = gql`
   }
 
   type Mutation {
-    createSection(data: CreateSectionArgs!): SectionMutationResponse
-    updateSection(args: UpdateSectionArgs!): SectionMutationResponse
+    createSection(data: CreateSectionData!): SectionMutationResponse
+    updateSection(id: String!, data: UpdateSectionData!): SectionMutationResponse
     deleteSection(id: ID!): SectionMutationResponse
   }
 `;

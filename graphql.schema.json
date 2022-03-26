@@ -49,7 +49,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CreateProjectArgs",
+        "name": "CreateProjectData",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -92,7 +92,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CreateSectionArgs",
+        "name": "CreateSectionData",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -135,7 +135,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "CreateTaskArgs",
+        "name": "CreateTaskData",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -271,7 +271,7 @@
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CreateProjectArgs",
+                    "name": "CreateProjectData",
                     "ofType": null
                   }
                 },
@@ -293,14 +293,14 @@
             "description": null,
             "args": [
               {
-                "name": "args",
+                "name": "data",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CreateSectionArgs",
+                    "name": "CreateSectionData",
                     "ofType": null
                   }
                 },
@@ -322,14 +322,14 @@
             "description": null,
             "args": [
               {
-                "name": "args",
+                "name": "data",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "CreateTaskArgs",
+                    "name": "CreateTaskData",
                     "ofType": null
                   }
                 },
@@ -524,14 +524,30 @@
             "description": null,
             "args": [
               {
-                "name": "args",
+                "name": "data",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UpdateProjectArgs",
+                    "name": "UpdateProjectData",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -553,14 +569,30 @@
             "description": null,
             "args": [
               {
-                "name": "args",
+                "name": "data",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UpdateSectionArgs",
+                    "name": "UpdateSectionData",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -582,14 +614,30 @@
             "description": null,
             "args": [
               {
-                "name": "args",
+                "name": "data",
                 "description": null,
                 "type": {
                   "kind": "NON_NULL",
                   "name": null,
                   "ofType": {
                     "kind": "INPUT_OBJECT",
-                    "name": "UpdateTaskArgs",
+                    "name": "UpdateTaskData",
+                    "ofType": null
+                  }
+                },
+                "defaultValue": null,
+                "isDeprecated": false,
+                "deprecationReason": null
+              },
+              {
+                "name": "id",
+                "description": null,
+                "type": {
+                  "kind": "NON_NULL",
+                  "name": null,
+                  "ofType": {
+                    "kind": "SCALAR",
+                    "name": "String",
                     "ofType": null
                   }
                 },
@@ -1434,7 +1482,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UpdateProjectArgs",
+        "name": "UpdateProjectData",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -1451,22 +1499,6 @@
             "deprecationReason": null
           },
           {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "title",
             "description": null,
             "type": {
@@ -1485,27 +1517,11 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UpdateSectionArgs",
+        "name": "UpdateSectionData",
         "description": null,
         "fields": null,
         "inputFields": [
           {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
             "name": "title",
             "description": null,
             "type": {
@@ -1524,7 +1540,7 @@
       },
       {
         "kind": "INPUT_OBJECT",
-        "name": "UpdateTaskArgs",
+        "name": "UpdateTaskData",
         "description": null,
         "fields": null,
         "inputFields": [
@@ -1547,22 +1563,6 @@
               "kind": "SCALAR",
               "name": "Date",
               "ofType": null
-            },
-            "defaultValue": null,
-            "isDeprecated": false,
-            "deprecationReason": null
-          },
-          {
-            "name": "id",
-            "description": null,
-            "type": {
-              "kind": "NON_NULL",
-              "name": null,
-              "ofType": {
-                "kind": "SCALAR",
-                "name": "ID",
-                "ofType": null
-              }
             },
             "defaultValue": null,
             "isDeprecated": false,

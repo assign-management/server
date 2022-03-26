@@ -6,8 +6,8 @@ export const sectionResolvers: Resolvers<SectionResolvers> = {
     fetchSections: (_parent, { projectId }) => sectionsService.fetchSections(projectId),
   },
   Mutation: {
-    createSection: async (_parent, { args }) => sectionsService.createSection(args),
-    updateSection: async (_parent, { args }) => sectionsService.updateSection(args),
+    createSection: async (_parent, { data }) => sectionsService.createSection(data),
+    updateSection: async (_parent, { id, data }) => sectionsService.updateSection(id, data),
     deleteSection: (_parent, { id }) => sectionsService.deleteSection(id),
   },
 };

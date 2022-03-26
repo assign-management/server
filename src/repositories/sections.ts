@@ -1,10 +1,10 @@
 import { Section } from '../types/section';
-import { CreateSectionArgs } from '../types/generated/graphql';
 import { FindProps, Repository } from '../utils/repository';
 import { taskRepository } from './tasks';
 import pool from '../pool';
+import { CreateSectionData, UpdateSectionData } from '../types/generated/graphql';
 
-class SectionRepository extends Repository<Section, CreateSectionArgs> {
+class SectionRepository extends Repository<Section, CreateSectionData, UpdateSectionData> {
   constructor() {
     super({
       tableName: 'sections',

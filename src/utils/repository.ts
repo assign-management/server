@@ -12,7 +12,7 @@ type OrderBy<T> = {
 };
 
 type ReturnedColumns<T> = (keyof T)[] | undefined;
-interface RepositoryConfig<T, R> {
+interface RepositoryConfig<T, C> {
   readonly tableName: string;
   readonly returnedColumns?: ReturnedColumns<T>;
   readonly tableAlias?: string;
@@ -27,7 +27,7 @@ export interface FindProps<T> {
 
 const CHUCK_SIZE = 1000;
 
-export abstract class Repository<T = any, R = any> {
+export abstract class Repository<T = any, C = any, U = any> {
   knex = pool.knex;
 
   public get tableName(): string {
@@ -46,7 +46,7 @@ export abstract class Repository<T = any, R = any> {
     return { [this.tableAlias]: this.tableName };
   }
 
-  constructor(public repositoryConfig: RepositoryConfig<T, R>) {}
+  constructor(public repositoryConfig: RepositoryConfig<T, C>) {}
 
   getBuilder(): Knex.QueryBuilder<T> {
     return pool.knex(this.table);
@@ -77,7 +77,7 @@ export abstract class Repository<T = any, R = any> {
     return this.getBuilder().select().where(where).first<T>();
   }
 
-  async create(args: R): Promise<T> {
+  async create(args: C): Promise<T> {
     const [project] = (await this.mutateTable().insert(args as any, this.returnedColumns as readonly string[])) as T[];
     return project;
   }
@@ -86,9 +86,9 @@ export abstract class Repository<T = any, R = any> {
    * @param args array of arguments that required to create a row
    * @returns rows
    */
-  async bulkCreate(args: R[]): Promise<T[]> {
+  async bulkCreate(args: C[]): Promise<T[]> {
     return pool.knex
-      .batchInsert<R>(this.tableName, args as any, CHUCK_SIZE)
+      .batchInsert<C>(this.tableName, args as any, CHUCK_SIZE)
       .returning<T[]>(this.returnedColumns as any) as Promise<T[]>;
   }
 
@@ -105,7 +105,7 @@ export abstract class Repository<T = any, R = any> {
       .delete();
   }
 
-  async update(where: Partial<T> = {}, args: Partial<R> = {}): Promise<T> {
+  async update(where: Partial<T> = {}, args: Partial<U> = {}): Promise<T> {
     const [project] = await this.getBuilder()
       .where(where)
       .update(args as any, this.returnedColumns as readonly string[]);

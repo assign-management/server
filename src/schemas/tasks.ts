@@ -12,13 +12,12 @@ export const taskSchemas = gql`
     updatedAt: Date!
   }
 
-  input CreateTaskArgs {
+  input CreateTaskData {
     title: String!
     sectionId: ID!
   }
 
-  input UpdateTaskArgs {
-    id: ID!
+  input UpdateTaskData {
     title: String
     dueDate: Date
     description: String
@@ -34,8 +33,8 @@ export const taskSchemas = gql`
   }
 
   type Mutation {
-    createTask(args: CreateTaskArgs!): TaskMutationResponse
-    updateTask(args: UpdateTaskArgs!): TaskMutationResponse
+    createTask(data: CreateTaskData!): TaskMutationResponse
+    updateTask(id: String!, data: UpdateTaskData!): TaskMutationResponse
     deleteTask(id: ID!): TaskMutationResponse
   }
 `;

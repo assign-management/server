@@ -1,11 +1,12 @@
 import { Knex } from 'knex';
 import pool from '../pool';
-import { CreateTaskArgs, Section, Task } from '../types/generated/graphql';
-import { FindProps, Repository } from '../utils/repository';
+import { CreateTaskData, UpdateTaskData } from '../types/generated/graphql';
+import { Task } from '../types/task';
+import { Repository } from '../utils/repository';
 
 const TASK_SECTION_ID_COLUMN = 'sectionId';
 
-class TaskRepository extends Repository<Task, CreateTaskArgs> {
+class TaskRepository extends Repository<Task, CreateTaskData, UpdateTaskData> {
   constructor() {
     super({
       tableName: 'tasks',
