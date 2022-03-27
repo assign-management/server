@@ -106,19 +106,19 @@ export type MutationRegistrationArgs = {
 
 export type MutationUpdateProjectArgs = {
   data: UpdateProjectData;
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationUpdateSectionArgs = {
   data: UpdateSectionData;
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 
 export type MutationUpdateTaskArgs = {
   data: UpdateTaskData;
-  id: Scalars['String'];
+  id: Scalars['ID'];
 };
 
 export type MutationResponse = {
@@ -195,7 +195,7 @@ export type Section = {
   createdAt: Scalars['Date'];
   id: Scalars['ID'];
   projectId: Scalars['ID'];
-  tasks?: Maybe<Array<Maybe<Task>>>;
+  tasks?: Maybe<Array<Task>>;
   title: Scalars['String'];
   updatedAt: Scalars['Date'];
 };
@@ -447,7 +447,7 @@ export type SectionResolvers<ContextType = any, ParentType extends ResolversPare
   createdAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   projectId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  tasks?: Resolver<Maybe<Array<Maybe<ResolversTypes['Task']>>>, ParentType, ContextType>;
+  tasks?: Resolver<Maybe<Array<ResolversTypes['Task']>>, ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   updatedAt?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;

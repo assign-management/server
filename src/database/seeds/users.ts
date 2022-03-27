@@ -10,7 +10,7 @@ import { generateTaskArgsArray } from '../../test/mock/tasks';
 
 const ROOT_USER_PROJECTS = 50;
 const ROOT_USER_SECTIONS = 50;
-const ROOT_USER_tasks = 50;
+const ROOT_USER_tasks = 5;
 
 export async function seed(knex: Knex): Promise<void> {
   await knex('projects').del();

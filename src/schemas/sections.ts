@@ -7,7 +7,7 @@ export const sectionSchemas = gql`
     createdAt: Date!
     updatedAt: Date!
     projectId: ID!
-    tasks: [Task]
+    tasks: [Task!]
   }
 
   type SectionsResponse implements ListResponse {
@@ -35,7 +35,7 @@ export const sectionSchemas = gql`
 
   type Mutation {
     createSection(data: CreateSectionData!): SectionMutationResponse
-    updateSection(id: String!, data: UpdateSectionData!): SectionMutationResponse
+    updateSection(id: ID!, data: UpdateSectionData!): SectionMutationResponse
     deleteSection(id: ID!): SectionMutationResponse
   }
 `;

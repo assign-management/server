@@ -53,7 +53,7 @@ export const projectSchemas = gql`
   }
   type Mutation {
     createProject(data: CreateProjectData!): ProjectMutationResponse
-    updateProject(id: String!, data: UpdateProjectData!): ProjectMutationResponse
+    updateProject(id: ID!, data: UpdateProjectData!): ProjectMutationResponse
     deleteProject(id: ID!): ProjectMutationResponse
   }
 `;

@@ -34,7 +34,7 @@ export const taskSchemas = gql`
 
   type Mutation {
     createTask(data: CreateTaskData!): TaskMutationResponse
-    updateTask(id: String!, data: UpdateTaskData!): TaskMutationResponse
+    updateTask(id: ID!, data: UpdateTaskData!): TaskMutationResponse
     deleteTask(id: ID!): TaskMutationResponse
   }
 `;
