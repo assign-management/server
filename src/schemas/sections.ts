@@ -26,7 +26,7 @@ export const sectionSchemas = gql`
 
   type SectionMutationResponse implements MutationResponse {
     status: MutationStatus!
-    section: Section
+    section: Section!
   }
 
   type Query {
@@ -34,8 +34,8 @@ export const sectionSchemas = gql`
   }
 
   type Mutation {
-    createSection(data: CreateSectionData!): SectionMutationResponse
-    updateSection(id: ID!, data: UpdateSectionData!): SectionMutationResponse
-    deleteSection(id: ID!): SectionMutationResponse
+    createSection(data: CreateSectionData!): SectionMutationResponse!
+    updateSection(id: ID!, data: UpdateSectionData!): SectionMutationResponse!
+    deleteSection(id: ID!): SectionMutationResponse!
   }
 `;

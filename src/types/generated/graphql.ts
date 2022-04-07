@@ -47,17 +47,17 @@ export type ListResponse = {
 
 export type Mutation = {
   __typename?: 'Mutation';
-  createProject?: Maybe<ProjectMutationResponse>;
-  createSection?: Maybe<SectionMutationResponse>;
-  createTask?: Maybe<TaskMutationResponse>;
-  deleteProject?: Maybe<ProjectMutationResponse>;
-  deleteSection?: Maybe<SectionMutationResponse>;
-  deleteTask?: Maybe<TaskMutationResponse>;
+  createProject: ProjectMutationResponse;
+  createSection: SectionMutationResponse;
+  createTask: TaskMutationResponse;
+  deleteProject: ProjectMutationResponse;
+  deleteSection: SectionMutationResponse;
+  deleteTask: TaskMutationResponse;
   login?: Maybe<User>;
   registration?: Maybe<User>;
-  updateProject?: Maybe<ProjectMutationResponse>;
-  updateSection?: Maybe<SectionMutationResponse>;
-  updateTask?: Maybe<TaskMutationResponse>;
+  updateProject: ProjectMutationResponse;
+  updateSection: SectionMutationResponse;
+  updateTask: TaskMutationResponse;
 };
 
 
@@ -151,7 +151,7 @@ export type Project = {
 
 export type ProjectMutationResponse = MutationResponse & {
   __typename?: 'ProjectMutationResponse';
-  project?: Maybe<Project>;
+  project: Project;
   status: MutationStatus;
 };
 
@@ -166,8 +166,8 @@ export type Query = {
   fetchProject?: Maybe<Project>;
   fetchProjects?: Maybe<ProjectsResponse>;
   fetchSections?: Maybe<SectionsResponse>;
+  fetchTask?: Maybe<Task>;
   profile?: Maybe<User>;
-  task?: Maybe<Task>;
 };
 
 
@@ -186,7 +186,7 @@ export type QueryFetchSectionsArgs = {
 };
 
 
-export type QueryTaskArgs = {
+export type QueryFetchTaskArgs = {
   id: Scalars['ID'];
 };
 
@@ -202,7 +202,7 @@ export type Section = {
 
 export type SectionMutationResponse = MutationResponse & {
   __typename?: 'SectionMutationResponse';
-  section?: Maybe<Section>;
+  section: Section;
   status: MutationStatus;
 };
 
@@ -227,7 +227,7 @@ export type Task = {
 export type TaskMutationResponse = MutationResponse & {
   __typename?: 'TaskMutationResponse';
   status: MutationStatus;
-  task?: Maybe<Task>;
+  task: Task;
 };
 
 export type UpdateProjectData = {
@@ -396,17 +396,17 @@ export type ListResponseResolvers<ContextType = any, ParentType extends Resolver
 };
 
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createProject?: Resolver<Maybe<ResolversTypes['ProjectMutationResponse']>, ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'data'>>;
-  createSection?: Resolver<Maybe<ResolversTypes['SectionMutationResponse']>, ParentType, ContextType, RequireFields<MutationCreateSectionArgs, 'data'>>;
-  createTask?: Resolver<Maybe<ResolversTypes['TaskMutationResponse']>, ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'data'>>;
-  deleteProject?: Resolver<Maybe<ResolversTypes['ProjectMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'id'>>;
-  deleteSection?: Resolver<Maybe<ResolversTypes['SectionMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteSectionArgs, 'id'>>;
-  deleteTask?: Resolver<Maybe<ResolversTypes['TaskMutationResponse']>, ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'id'>>;
+  createProject?: Resolver<ResolversTypes['ProjectMutationResponse'], ParentType, ContextType, RequireFields<MutationCreateProjectArgs, 'data'>>;
+  createSection?: Resolver<ResolversTypes['SectionMutationResponse'], ParentType, ContextType, RequireFields<MutationCreateSectionArgs, 'data'>>;
+  createTask?: Resolver<ResolversTypes['TaskMutationResponse'], ParentType, ContextType, RequireFields<MutationCreateTaskArgs, 'data'>>;
+  deleteProject?: Resolver<ResolversTypes['ProjectMutationResponse'], ParentType, ContextType, RequireFields<MutationDeleteProjectArgs, 'id'>>;
+  deleteSection?: Resolver<ResolversTypes['SectionMutationResponse'], ParentType, ContextType, RequireFields<MutationDeleteSectionArgs, 'id'>>;
+  deleteTask?: Resolver<ResolversTypes['TaskMutationResponse'], ParentType, ContextType, RequireFields<MutationDeleteTaskArgs, 'id'>>;
   login?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationLoginArgs>>;
   registration?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType, Partial<MutationRegistrationArgs>>;
-  updateProject?: Resolver<Maybe<ResolversTypes['ProjectMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'data' | 'id'>>;
-  updateSection?: Resolver<Maybe<ResolversTypes['SectionMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateSectionArgs, 'data' | 'id'>>;
-  updateTask?: Resolver<Maybe<ResolversTypes['TaskMutationResponse']>, ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'data' | 'id'>>;
+  updateProject?: Resolver<ResolversTypes['ProjectMutationResponse'], ParentType, ContextType, RequireFields<MutationUpdateProjectArgs, 'data' | 'id'>>;
+  updateSection?: Resolver<ResolversTypes['SectionMutationResponse'], ParentType, ContextType, RequireFields<MutationUpdateSectionArgs, 'data' | 'id'>>;
+  updateTask?: Resolver<ResolversTypes['TaskMutationResponse'], ParentType, ContextType, RequireFields<MutationUpdateTaskArgs, 'data' | 'id'>>;
 };
 
 export type MutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['MutationResponse'] = ResolversParentTypes['MutationResponse']> = {
@@ -424,7 +424,7 @@ export type ProjectResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type ProjectMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['ProjectMutationResponse'] = ResolversParentTypes['ProjectMutationResponse']> = {
-  project?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType>;
+  project?: Resolver<ResolversTypes['Project'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -439,8 +439,8 @@ export type QueryResolvers<ContextType = any, ParentType extends ResolversParent
   fetchProject?: Resolver<Maybe<ResolversTypes['Project']>, ParentType, ContextType, RequireFields<QueryFetchProjectArgs, 'id'>>;
   fetchProjects?: Resolver<Maybe<ResolversTypes['ProjectsResponse']>, ParentType, ContextType, Partial<QueryFetchProjectsArgs>>;
   fetchSections?: Resolver<Maybe<ResolversTypes['SectionsResponse']>, ParentType, ContextType, RequireFields<QueryFetchSectionsArgs, 'projectId'>>;
+  fetchTask?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<QueryFetchTaskArgs, 'id'>>;
   profile?: Resolver<Maybe<ResolversTypes['User']>, ParentType, ContextType>;
-  task?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType, RequireFields<QueryTaskArgs, 'id'>>;
 };
 
 export type SectionResolvers<ContextType = any, ParentType extends ResolversParentTypes['Section'] = ResolversParentTypes['Section']> = {
@@ -454,7 +454,7 @@ export type SectionResolvers<ContextType = any, ParentType extends ResolversPare
 };
 
 export type SectionMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['SectionMutationResponse'] = ResolversParentTypes['SectionMutationResponse']> = {
-  section?: Resolver<Maybe<ResolversTypes['Section']>, ParentType, ContextType>;
+  section?: Resolver<ResolversTypes['Section'], ParentType, ContextType>;
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
@@ -479,7 +479,7 @@ export type TaskResolvers<ContextType = any, ParentType extends ResolversParentT
 
 export type TaskMutationResponseResolvers<ContextType = any, ParentType extends ResolversParentTypes['TaskMutationResponse'] = ResolversParentTypes['TaskMutationResponse']> = {
   status?: Resolver<ResolversTypes['MutationStatus'], ParentType, ContextType>;
-  task?: Resolver<Maybe<ResolversTypes['Task']>, ParentType, ContextType>;
+  task?: Resolver<ResolversTypes['Task'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 };
 

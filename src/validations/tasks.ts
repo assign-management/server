@@ -36,7 +36,8 @@ export const updateTaskValidation = new Validation<UpdateTaskData>({
       nullable: true,
     },
     dueDate: {
-      type: 'string',
+      type: 'object',
+      format: 'date-time',
       nullable: true,
     },
   },

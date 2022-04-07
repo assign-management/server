@@ -39,7 +39,7 @@ export const projectSchemas = gql`
 
   type ProjectMutationResponse implements MutationResponse {
     status: MutationStatus!
-    project: Project
+    project: Project!
   }
 
   type ProjectsResponse implements ListResponse {
@@ -52,8 +52,8 @@ export const projectSchemas = gql`
     fetchProjects(args: PaginationArgs): ProjectsResponse
   }
   type Mutation {
-    createProject(data: CreateProjectData!): ProjectMutationResponse
-    updateProject(id: ID!, data: UpdateProjectData!): ProjectMutationResponse
-    deleteProject(id: ID!): ProjectMutationResponse
+    createProject(data: CreateProjectData!): ProjectMutationResponse!
+    updateProject(id: ID!, data: UpdateProjectData!): ProjectMutationResponse!
+    deleteProject(id: ID!): ProjectMutationResponse!
   }
 `;

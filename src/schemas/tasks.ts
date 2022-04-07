@@ -25,16 +25,16 @@ export const taskSchemas = gql`
 
   type TaskMutationResponse implements MutationResponse {
     status: MutationStatus!
-    task: Task
+    task: Task!
   }
 
   type Query {
-    task(id: ID!): Task
+    fetchTask(id: ID!): Task
   }
 
   type Mutation {
-    createTask(data: CreateTaskData!): TaskMutationResponse
-    updateTask(id: ID!, data: UpdateTaskData!): TaskMutationResponse
-    deleteTask(id: ID!): TaskMutationResponse
+    createTask(data: CreateTaskData!): TaskMutationResponse!
+    updateTask(id: ID!, data: UpdateTaskData!): TaskMutationResponse!
+    deleteTask(id: ID!): TaskMutationResponse!
   }
 `;

@@ -11,7 +11,9 @@ const mockTask = {
 };
 
 export const taskResolvers: Resolvers<TaskResolvers> = {
-  Query: {},
+  Query: {
+    fetchTask: async (_, { id }) => tasksService.fetchTask(id),
+  },
   Mutation: {
     createTask: async (_parent, { data }) => tasksService.createTask(data),
     deleteTask: (_parent, { id }) => tasksService.deleteTask(id),

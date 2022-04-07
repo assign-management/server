@@ -3,6 +3,11 @@ import { CreateTaskData, MutationStatus, TaskMutationResponse, UpdateTaskData } 
 import { UUIDValidation } from '../validations/common';
 import { createTaskValidation, updateTaskValidation } from '../validations/tasks';
 
+export const fetchTask = async (id: string) => {
+  UUIDValidation.validate(id);
+  return taskRepository.findOne({ id });
+};
+
 export const createTask = async (data: CreateTaskData): Promise<TaskMutationResponse> => {
   createTaskValidation.validate(data);
   const task = await taskRepository.create(data);
