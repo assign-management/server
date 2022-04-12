@@ -1,3 +1,4 @@
+import { FilterArgs } from './common';
 import { Accessibility } from './generated/graphql';
 
 export interface Project {
@@ -7,3 +8,5 @@ export interface Project {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export type ProjectFilterArgs = FilterArgs<Project>;

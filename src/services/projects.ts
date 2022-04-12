@@ -9,8 +9,13 @@ import {
   UpdateProjectData,
 } from '../types/generated/graphql';
 import { projectRepository } from '../repositories';
-import { createProjectValidation, updateProjectValidation } from '../validations';
-import { UUIDValidation } from '../validations/common';
+import {
+  createProjectValidation,
+  paginationParamValidation,
+  updateProjectValidation,
+  UUIDValidation,
+} from '../validations';
+import { FindProps } from '../utils/repository';
 
 export const createProject = async (data: CreateProjectData): Promise<ProjectMutationResponse> => {
   createProjectValidation.validate(data);
@@ -24,10 +29,11 @@ export const updateProject = async (id: string, data?: UpdateProjectData): Promi
   return { status: MutationStatus.Success, project };
 };
 
-export const fetchProjects = async (args: InputMaybe<PaginationArgs> | undefined): Promise<ProjectsResponse> => {
-  const skip = args?.offset ?? 0;
-  const take = args?.limit ?? 20;
-  const projects = await projectRepository.find({ skip, take });
+export const fetchProjects = async (
+  paginationArgs: InputMaybe<PaginationArgs> = { offset: 0, limit: 20, filter: [] },
+): Promise<ProjectsResponse> => {
+  paginationParamValidation.validate(paginationArgs);
+  const projects = await projectRepository.find(paginationArgs as FindProps<Project>);
 
   return { total: projects.length, projects };
 };

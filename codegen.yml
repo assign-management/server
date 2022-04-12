@@ -3,6 +3,9 @@ schema: 'src/**/*.ts'
 documents: null
 generates:
   src/types/generated/graphql.ts:
+    config:
+      inputMaybeValue: T | undefined
+      maybeValue: T | undefined
     plugins:
       - 'typescript'
       - 'typescript-resolvers'

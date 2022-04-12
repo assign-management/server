@@ -8,9 +8,15 @@ export const commonSchemas = gql`
     total: Int!
   }
 
+  input FilterArgs {
+    field: String!
+    value: String!
+  }
+
   input PaginationArgs {
     offset: Int = 0
     limit: Int = 20
+    filter: [FilterArgs!] = []
   }
 
   enum MutationStatus {

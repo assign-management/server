@@ -1,6 +1,6 @@
 import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
-export type Maybe<T> = T | null;
-export type InputMaybe<T> = Maybe<T>;
+export type Maybe<T> = T | undefined;
+export type InputMaybe<T> = T | undefined;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
@@ -39,6 +39,11 @@ export type CreateSectionData = {
 export type CreateTaskData = {
   sectionId: Scalars['ID'];
   title: Scalars['String'];
+};
+
+export type FilterArgs = {
+  field: Scalars['String'];
+  value: Scalars['String'];
 };
 
 export type ListResponse = {
@@ -131,6 +136,7 @@ export enum MutationStatus {
 }
 
 export type PaginationArgs = {
+  filter?: InputMaybe<Array<FilterArgs>>;
   limit?: InputMaybe<Scalars['Int']>;
   offset?: InputMaybe<Scalars['Int']>;
 };
@@ -328,6 +334,7 @@ export type ResolversTypes = {
   CreateSectionData: CreateSectionData;
   CreateTaskData: CreateTaskData;
   Date: ResolverTypeWrapper<Scalars['Date']>;
+  FilterArgs: FilterArgs;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Int: ResolverTypeWrapper<Scalars['Int']>;
   JSON: ResolverTypeWrapper<Scalars['JSON']>;
@@ -359,6 +366,7 @@ export type ResolversParentTypes = {
   CreateSectionData: CreateSectionData;
   CreateTaskData: CreateTaskData;
   Date: Scalars['Date'];
+  FilterArgs: FilterArgs;
   ID: Scalars['ID'];
   Int: Scalars['Int'];
   JSON: Scalars['JSON'];

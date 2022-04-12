@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 import pool from '../pool';
+import { FilterArgs } from '../types/common';
 
 interface CountResult {
   count: number;
@@ -20,9 +21,10 @@ interface RepositoryConfig<T, C> {
 
 export interface FindProps<T> {
   where?: Partial<T>;
-  take?: number;
-  skip?: number;
+  limit?: number;
+  offset?: number;
   orderBy?: OrderBy<T>[];
+  filter?: FilterArgs<T>;
 }
 
 const CHUCK_SIZE = 1000;
@@ -112,14 +114,18 @@ export abstract class Repository<T = any, C = any, U = any> {
     return project;
   }
 
-  find({ where, take, skip, orderBy }: FindProps<T> = {}): Knex.QueryBuilder<T> {
+  find({ where, offset, limit, orderBy, filter }: FindProps<T> = {}): Knex.QueryBuilder<T> {
     const query = this.queryTable().select();
     if (where) {
       query.where(where);
     }
-    if (take) query.limit(take);
-    if (skip) query.offset(skip);
+    if (limit) query.limit(limit);
+    if (offset) query.offset(offset);
     if (orderBy) query.orderBy(orderBy);
+    if (filter)
+      filter.forEach(({ field, value }) => {
+        query.whereILike(field as string, pool.knex.raw('?', `%${value.trim()}%`));
+      });
     return query;
   }
 }
