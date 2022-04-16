@@ -1,25 +1,18 @@
-import { Resolvers, UserResolvers } from '../types/generated/graphql';
+import { Resolvers } from '../types/generated/graphql';
+import * as usersService from '../services/users';
+import passport from 'passport';
 
-const userMock = Promise.resolve({
-  email: 'test',
-  id: 'test',
-  name: 'test',
-  token: 'test',
-});
-
-export const userResolvers: Resolvers<UserResolvers> = {
+export const userResolvers: Resolvers = {
   Query: {
-    profile: () => ({
-      id: 'ID!',
-      email: 'String',
-      name: 'String',
-      token: 'String',
-    }),
+    profile: () => usersService.profile(),
   },
   Mutation: {
-    login: () => userMock,
-    registration: () => {
-      return userMock;
+    login: (_parent, { data }) => usersService.login(data),
+    registration: async (_parent, { data }, context, info) => {
+      const user = await usersService.registration(data);
+      context.req.session = { token: user.user!.token };
+      context.res.header('Authorization', `Bearer ${user.user!.token}`);
+      return user;
     },
   },
 };

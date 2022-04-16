@@ -1,5 +1,4 @@
-import { projectRepository } from '../repositories';
-import { Accessibility, CreateProjectData, PaginationArgs, UpdateProjectData } from '../types/generated/graphql';
+import { Accessibility, CreateProjectData, UpdateProjectData } from '../types/generated/graphql';
 import { Validation } from '../utils/validation';
 
 export const createProjectValidation = new Validation<CreateProjectData>({

@@ -42,4 +42,6 @@ export const commonSchemas = gql`
   #   "string that describes the result of the mutation. It is intended to be used in the UI of the product."
   #   message: String!
   # }
+
+  directive @upper on FIELD_DEFINITION
 `;

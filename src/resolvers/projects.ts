@@ -1,7 +1,7 @@
 import { ProjectResolvers, Resolvers } from '../types/generated/graphql';
 import * as projectService from '../services/projects';
 
-export const projectResolvers: Resolvers<ProjectResolvers> = {
+export const projectResolvers: Resolvers = {
   Query: {
     fetchProject: async (_, { id }) => projectService.fetchProject(id),
     fetchProjects: async (_, { args }, context, info) => projectService.fetchProjects(args),

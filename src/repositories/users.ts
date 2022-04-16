@@ -1,21 +1,23 @@
-import { Knex } from 'knex';
-import { User } from 'knex/types/tables';
-import pool from '../pool';
+import { User } from '../types/user';
+import { CreateUserData } from '../types/generated/graphql';
+import { Repository } from '../utils/repository';
 
-class UserRepository {
-  USER_COLUMNS = ['id', 'email', 'name', 'role'];
-  queryBuilder = pool.knex.from('users');
-
-  findOne(where: any) {
-    return pool.knex.from('users').where(where).select(this.USER_COLUMNS).first();
-  }
-
-  create(data: Knex.DbRecordArr<User>) {
-    return pool.knex('users').insert(data).returning('*')[0];
-  }
-
-  find() {
-    const test = this.queryBuilder.select('id', 'email', 'created_at', 'updated_at');
+class UserRepository extends Repository<User, CreateUserData> {
+  constructor() {
+    super({
+      tableName: 'users',
+      returnedColumns: [
+        'id',
+        'email',
+        'password',
+        'name',
+        'role',
+        'resetToken',
+        'resetTokenExpires',
+        'createdAt',
+        'updatedAt',
+      ],
+    });
   }
 }
 

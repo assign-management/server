@@ -1,7 +1,7 @@
 import { Resolvers, SectionResolvers } from '../types/generated/graphql';
 import * as sectionsService from '../services/sections';
 
-export const sectionResolvers: Resolvers<SectionResolvers> = {
+export const sectionResolvers: Resolvers = {
   Query: {
     fetchSections: (_parent, { projectId }) => sectionsService.fetchSections(projectId),
   },

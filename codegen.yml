@@ -6,6 +6,7 @@ generates:
     config:
       inputMaybeValue: T | undefined
       maybeValue: T | undefined
+      contextType: ../context#ApolloContext
     plugins:
       - 'typescript'
       - 'typescript-resolvers'

@@ -1,5 +1,5 @@
 import { UserInputError } from 'apollo-server-core';
-import { GraphQLScalarType, Kind } from 'graphql';
+import { GraphQLScalarType, GraphQLSchema, Kind } from 'graphql';
 import GraphQLJSON from 'graphql-type-json';
 import { Resolvers } from '../types/generated/graphql';
 

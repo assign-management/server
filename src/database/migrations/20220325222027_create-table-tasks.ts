@@ -15,7 +15,6 @@ export async function up(knex: Knex): Promise<void> {
     FOREIGN KEY ("sectionId") REFERENCES "sections" ("id") ON DELETE CASCADE
   );
   `);
-
   await knex.schema.raw(`
     CREATE TRIGGER update_tasks_updated_at
     BEFORE UPDATE ON tasks

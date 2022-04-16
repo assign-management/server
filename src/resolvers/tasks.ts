@@ -10,7 +10,7 @@ const mockTask = {
   tasks: [],
 };
 
-export const taskResolvers: Resolvers<TaskResolvers> = {
+export const taskResolvers: Resolvers = {
   Query: {
     fetchTask: async (_, { id }) => tasksService.fetchTask(id),
   },

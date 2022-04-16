@@ -1,4 +1,4 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import { ApolloServer, ExpressContext } from 'apollo-server-express';
 import {
   ApolloServerPluginDrainHttpServer,
@@ -10,17 +10,53 @@ import http, { Server } from 'http';
 import typeDefs from './schemas';
 import resolvers from './resolvers';
 import { GraphQLError } from 'graphql';
-import { isEnv } from './config/environment';
+import { CLIENT_URL, isEnv } from './config/environment';
 import { Env } from './config/constants';
 import { ApolloServerPluginLandingPageLocalDefault } from 'apollo-server-core/dist/plugin/landingPage/default';
 import { generateProjectArgs } from './test/mock/projects';
+import { makeExecutableSchema } from '@graphql-tools/schema';
+import { upperDirectiveTransformer } from './directives';
+import cookieSession from 'cookie-session';
+import cors, { CorsOptions } from 'cors';
+import { passport } from './services';
+import { authRoute } from './routes/auth';
+
+const corsOptions: CorsOptions = {
+  origin: [CLIENT_URL, 'https://studio.apollographql.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true,
+};
+
+let schema = makeExecutableSchema({
+  typeDefs,
+  resolvers,
+});
+
+schema = upperDirectiveTransformer(schema, 'upper');
 
 export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloServer<ExpressContext> }> => {
   const app = express();
   const httpServer = http.createServer(app);
+  // traffic proxy through nginx-ingress
+  // express don't trust to ssl on proxy by default
+  app.set('trust proxy', true);
+  app.use(express.json());
+  app.use(
+    cookieSession({
+      // jwt is already encrypted and can't be tempered
+      signed: false,
+      // check that the user use https connection
+      secure: false,
+      maxAge: 24 * 60 * 60 * 100,
+    }),
+  );
+
+  app.use(passport.initialize());
+  app.use(cors(corsOptions));
+  app.use('/auth', authRoute);
+
   const apolloServer = new ApolloServer({
-    typeDefs,
-    resolvers,
+    schema,
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
       ApolloServerPluginUsageReportingDisabled(),
@@ -45,17 +81,18 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
       // be manipulated in other ways, as long as it's returned.
       return err;
     },
-    // context: ({ res, req }) => ({
-    //   user: req.user,
-    //   res,
-    //   req,
-    // }),
+    context: ({ res, req }) => ({
+      user: req.user,
+      res,
+      req,
+    }),
   });
-  await apolloServer.start();
-  apolloServer.applyMiddleware({ app });
 
-  // app.use(express.json());
-  // app.use(usersRouter);
+  await apolloServer.start();
+  apolloServer.applyMiddleware({
+    app,
+    cors: corsOptions,
+  });
 
   return { httpServer, apolloServer };
 };

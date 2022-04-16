@@ -1,11 +1,45 @@
 import { gql } from 'apollo-server-core';
 
 export const userSchemas = gql`
+  enum Role {
+    ADMIN
+    MODERATOR
+    MEMBER
+  }
+
   type User {
     id: ID!
-    email: String!
     name: String!
-    token: String
+    email: String!
+    password: String
+    role: Role!
+    resetToken: String
+    resetTokenExpires: String
+    createdAt: Date!
+    updatedAt: Date!
+  }
+
+  type UserPayload {
+    id: ID!
+    name: String!
+    email: String!
+    token: String!
+  }
+
+  input CreateUserData {
+    email: String!
+    password: String!
+    name: String
+  }
+
+  input LoginData {
+    email: String!
+    password: String!
+  }
+
+  type UserMutationResponse implements MutationResponse {
+    status: MutationStatus!
+    user: UserPayload
   }
 
   type Query {
@@ -13,7 +47,7 @@ export const userSchemas = gql`
   }
 
   type Mutation {
-    login(email: String, password: String): User
-    registration(email: String, password: String, name: String): User
+    login(data: LoginData!): UserMutationResponse!
+    registration(data: CreateUserData!): UserMutationResponse!
   }
 `;
