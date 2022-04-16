@@ -11,10 +11,11 @@ export const userSchemas = gql`
     id: ID!
     name: String!
     email: String!
-    password: String
+    # password: String
     role: Role!
-    resetToken: String
-    resetTokenExpires: String
+    image: String
+    # resetToken: String
+    # resetTokenExpires: String
     createdAt: Date!
     updatedAt: Date!
   }

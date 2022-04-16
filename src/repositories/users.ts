@@ -1,8 +1,8 @@
-import { User } from '../types/user';
+import { OauthPayload, User } from '../types/user';
 import { CreateUserData } from '../types/generated/graphql';
 import { Repository } from '../utils/repository';
 
-class UserRepository extends Repository<User, CreateUserData> {
+class UserRepository extends Repository<User, CreateUserData | OauthPayload> {
   constructor() {
     super({
       tableName: 'users',
@@ -12,6 +12,8 @@ class UserRepository extends Repository<User, CreateUserData> {
         'password',
         'name',
         'role',
+        'image',
+        'provider',
         'resetToken',
         'resetTokenExpires',
         'createdAt',

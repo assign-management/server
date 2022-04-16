@@ -4,7 +4,7 @@ import { CLIENT_URL } from '../config/environment';
 
 export const authRoute = Router();
 
-authRoute.get('/google', passport.authenticate('google', { scope: ['profile'] }));
+authRoute.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 authRoute.get(
   '/google/callback',
   passport.authenticate('google', {
@@ -13,7 +13,10 @@ authRoute.get(
   }),
 );
 
-authRoute.get('/github', passport.authenticate('github', { scope: ['profile'] }));
+/**
+ * @link https://github.com/cfsghost/passport-github#readme
+ */
+authRoute.get('/github', passport.authenticate('github', { scope: ['user:email'] }));
 authRoute.get(
   '/github/callback',
   passport.authenticate('github', {

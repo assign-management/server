@@ -52,6 +52,7 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
   );
 
   app.use(passport.initialize());
+  app.use(passport.session());
   app.use(cors(corsOptions));
   app.use('/auth', authRoute);
 
@@ -81,11 +82,15 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
       // be manipulated in other ways, as long as it's returned.
       return err;
     },
-    context: ({ res, req }) => ({
-      user: req.user,
-      res,
-      req,
-    }),
+    context: ({ res, req }) => {
+      console.log(req.user);
+
+      return {
+        user: req.user,
+        res,
+        req,
+      };
+    },
   });
 
   await apolloServer.start();

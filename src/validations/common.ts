@@ -7,6 +7,13 @@ export const UUIDValidation = new Validation<string>({
   format: 'uuid',
 });
 
+export const emailValidation = new Validation<string>({
+  type: 'string',
+  format: 'email',
+  minLength: 1,
+  maxLength: 255,
+});
+
 export const paginationParamValidation = new Validation<PaginationArgs>({
   type: 'object',
   additionalProperties: false,

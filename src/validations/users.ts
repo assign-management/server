@@ -1,5 +1,7 @@
 import { CreateUserData, LoginData } from '../types/generated/graphql';
+import { OauthPayload } from '../types/user';
 import { Validation } from '../utils/validation';
+import { emailValidation } from './common';
 
 export const createUserValidation = new Validation<CreateUserData>({
   type: 'object',
@@ -12,12 +14,33 @@ export const createUserValidation = new Validation<CreateUserData>({
       maxLength: 255,
       nullable: true,
     },
-    email: {
-      type: 'string',
-      format: 'email',
-    },
+    email: emailValidation.schema,
     password: {
       type: 'string',
+      minLength: 1,
+      maxLength: 255,
+    },
+  },
+});
+
+export const oauthRegistrationValidation = new Validation<OauthPayload>({
+  type: 'object',
+  required: ['email', 'provider'],
+  additionalProperties: false,
+  properties: {
+    email: emailValidation.schema,
+    provider: {
+      type: 'string',
+    },
+    image: {
+      type: 'string',
+      nullable: true,
+      minLength: 1,
+      maxLength: 255,
+    },
+    name: {
+      type: 'string',
+      nullable: true,
       minLength: 1,
       maxLength: 255,
     },

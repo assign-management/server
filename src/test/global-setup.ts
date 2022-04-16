@@ -27,7 +27,7 @@ export default async () => {
     // connect to the testing DB to run migrations and seeds.
     await pool.connect(knexConfig);
     await pool.knex.migrate.latest();
-    await pool.knex.seed.run();
+    // await pool.knex.seed.run();
     await pool.close();
     Logger.info(`${DATABASE_NAME} database initialization succeeded.`);
   } catch (error) {
