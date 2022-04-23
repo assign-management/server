@@ -70,11 +70,6 @@ export abstract class Repository<T = any, C = any, U = any> {
     return query;
   }
 
-  async count(): Promise<number> {
-    const { count } = await this.getBuilder().count().first<CountResult>();
-    return count;
-  }
-
   findOne(where: Partial<T> = {}): Knex.QueryBuilder<T> {
     return this.getBuilder().select().where(where).first<T>();
   }
@@ -114,18 +109,30 @@ export abstract class Repository<T = any, C = any, U = any> {
     return project;
   }
 
-  find({ where, offset, limit, orderBy, filter }: FindProps<T> = {}): Knex.QueryBuilder<T> {
-    const query = this.queryTable().select();
-    if (where) {
-      query.where(where);
-    }
-    if (limit) query.limit(limit);
-    if (offset) query.offset(offset);
-    if (orderBy) query.orderBy(orderBy);
+  handleFilter(query: Knex.QueryBuilder<T>, filter: FindProps<T>['filter']) {
     if (filter)
       filter.forEach(({ field, value }) => {
         query.whereILike(field as string, pool.knex.raw('?', `%${value.trim()}%`));
       });
+  }
+
+  find({ where, offset, limit, orderBy, filter }: FindProps<T> = {}): Knex.QueryBuilder<T, T[]> {
+    const query = this.queryTable().select();
+    if (where) {
+      query.where(where);
+    }
+    this.handleFilter(query, filter);
+    if (limit) query.limit(limit);
+    if (offset) query.offset(offset);
+    if (orderBy) query.orderBy(orderBy);
     return query;
+  }
+
+  async count(countColumn?: keyof T, queryBuilder?: Knex.QueryBuilder<T>): Promise<number> {
+    const query = queryBuilder?.clone() ?? this.getBuilder();
+    query.clear('offset').clear('limit').clear('columns');
+    query.count(countColumn ?? 'id').first();
+    const { count } = await query.count();
+    return count;
   }
 }

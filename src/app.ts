@@ -83,8 +83,6 @@ export const app = async (): Promise<{ httpServer: Server; apolloServer: ApolloS
       return err;
     },
     context: ({ res, req }) => {
-      console.log(req.user);
-
       return {
         user: req.user,
         res,

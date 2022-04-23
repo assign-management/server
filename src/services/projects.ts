@@ -33,9 +33,10 @@ export const fetchProjects = async (
   paginationArgs: InputMaybe<PaginationArgs> = { offset: 0, limit: 20, filter: [] },
 ): Promise<ProjectsResponse> => {
   paginationParamValidation.validate(paginationArgs);
-  const projects = await projectRepository.find(paginationArgs as FindProps<Project>);
-
-  return { total: projects.length, projects };
+  const projectsQuery = projectRepository.find(paginationArgs as FindProps<Project>);
+  const total = await projectRepository.count('id', projectsQuery);
+  const projects = await projectsQuery;
+  return { total, projects };
 };
 
 export const fetchProject = async (id: string): Promise<Project> => {
